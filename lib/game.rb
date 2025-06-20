@@ -11,6 +11,10 @@ class Game
 
   include Display
 
+  def set_game
+    @game_board.set_board
+  end
+
   def handle_play
     self.display_game
   end
