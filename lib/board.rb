@@ -47,7 +47,10 @@ class Board
     @squares[7][5] = @white_pieces[13].bishop_icon
     @squares[7][3] = @white_pieces[14].queen_icon
     @squares[7][4] = @white_pieces[15].king_icon
-    
   end
 
+  def algebraic_notation
+    @squares.each_with_index{|row,index| row.push(8 - index)}
+    @squares.push(%w'A B C D E F G H')
+  end
 end
