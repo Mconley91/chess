@@ -17,12 +17,18 @@ class Game
   end
 
   def handle_play
-    self.display_game
+    loop do
+      self.display_game
+      self.get_input
+    end
   end
 
   def get_input
-    input = gets.chomp.downcase.split('')
-    convert_to_yx(input)
+    loop do
+      input = gets.chomp.downcase.split('')
+      converted_input = convert_to_yx(input)
+      return converted_input if play_validator(converted_input)
+    end
   end
 
   def convert_to_yx(input)
@@ -46,7 +52,7 @@ class Game
       when 'h' 
         yx[1] = 7
     end
-    return yx if play_validator(yx)
+    yx
   end
 
   def play_validator(play)
