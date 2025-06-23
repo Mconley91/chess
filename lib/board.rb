@@ -16,15 +16,32 @@ class Board
     @black_pieces = make_pieces('black')
   end
 
-  def make_pieces(color)
-    arr = []
-    8.times{|index| arr << Pawn.new(color)}
-    2.times{|index| arr << Rook.new(color)}
-    2.times{|index| arr << Knight.new(color)}
-    2.times{|index| arr << Bishop.new(color)}
-    arr << Queen.new(color)
-    arr << King.new(color)
-    arr
+  def make_pieces(color, xy)
+    if color == 'white'
+      arr = []
+      @squares[6].each_with_index{|square,index| arr << Pawn.new(color,[6,index])}
+      arr << Rook.new(color,[7,0])
+      arr << Rook.new(color,[7,7])
+      arr << Knight.new(color,[7,1])
+      arr << Knight.new(color,[7,6])
+      arr << Bishop.new(color,[7,2])
+      arr << Bishop.new(color,[7,5])
+      arr << Queen.new(color,[7,3])
+      arr << King.new(color,[7,4])
+      arr
+    else # black pieces
+      arr = []
+      @squares[1].each_with_index{|square,index| arr << Pawn.new(color,[1,index])}
+      arr << Rook.new(color,[0,0])
+      arr << Rook.new(color,[0,7])
+      arr << Knight.new(color,[0,1])
+      arr << Knight.new(color,[0,6])
+      arr << Bishop.new(color,[0,2])
+      arr << Bishop.new(color,[0,5])
+      arr << Queen.new(color,[0,3])
+      arr << King.new(color,[0,4])
+      arr
+    end   
   end
 
   def set_board
