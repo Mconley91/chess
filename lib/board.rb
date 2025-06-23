@@ -44,7 +44,7 @@ class Board
     end   
   end
 
-  def set_board
+  def set_pieces
     @white_pieces.each do|piece| 
       @squares[piece.yx[0]][piece.yx[1]] = piece.icon
     end
