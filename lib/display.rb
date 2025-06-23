@@ -9,7 +9,13 @@ module Display
     puts "   A B C D E F G H"
   end
 
+  def display_turn
+    puts "ROUND: #{self.round}, #{self.player_turn}'s move"
+  end
+
   def display_game
+    display_turn
     display_board
   end
+
 end
