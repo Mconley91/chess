@@ -3,10 +3,11 @@
 require './lib/piece.rb'
 
 class King < Piece
-  attr_reader :king_icon
+  attr_reader :king_icon, :xy
 
-  def initialize(color)
+  def initialize(color,xy)
     @king_icon = color == 'white' ? "\u{2654}" : "\u{265A}"
+    @xy = xy
   end
 
 end
