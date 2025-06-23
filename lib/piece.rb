@@ -1,8 +1,8 @@
 class Piece 
-  attr_accessor :xy
+  attr_accessor :yx
   
-  def initialize(color, xy)
-    @xy = xy
+  def initialize(color, yx)
+    @yx = yx
   end
 
 end

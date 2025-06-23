@@ -46,10 +46,10 @@ class Board
 
   def set_board
     @white_pieces.each do|piece| 
-      @squares[piece.xy[0]][piece.xy[1]] = piece.icon
+      @squares[piece.yx[0]][piece.yx[1]] = piece.icon
     end
     @black_pieces.each do|piece| 
-      @squares[piece.xy[0]][piece.xy[1]] = piece.icon
+      @squares[piece.yx[0]][piece.yx[1]] = piece.icon
     end
   end
 
