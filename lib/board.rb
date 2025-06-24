@@ -8,7 +8,7 @@ require './lib/pieces/queen.rb'
 require './lib/pieces/rook.rb'
 
 class Board
-  attr_accessor :squares
+  attr_accessor :squares, :white_pieces, :black_pieces
   
   def initialize
     @squares = Array.new(8){Array.new(8){'_'}}
@@ -29,7 +29,7 @@ class Board
       arr << Queen.new(color,[7,3])
       arr << King.new(color,[7,4])
       arr
-    else # black pieces
+    else # white pieces
       arr = []
       @squares[1].each_with_index{|square,index| arr << Pawn.new(color,[1,index])}
       arr << Rook.new(color,[0,0])

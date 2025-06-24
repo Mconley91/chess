@@ -22,8 +22,9 @@ class Game
     loop do
       self.display_game
       # returns a valid coordinate input for use in selecting & playing pieces
-      self.get_input
+      self.select_piece(self.get_input)
       #selecting and moving a piece will be a 2 step process
+      #players should be able to 'deselect' a piece if they have not chosen a tile to move to
       #determine winner/draw here
       self.next_turn
     end
@@ -38,7 +39,7 @@ class Game
 
   def convert_to_yx(input)
     yx = [nil,nil]
-    yx[0] = input[1].to_i - 1 
+    yx[0] = 8 - input[1].to_i
     case input[0]
       when 'a' 
         yx[1] = 0
@@ -73,7 +74,11 @@ class Game
   end
 
   def select_piece(yx)
-    
+    if @player_turn == 'White'
+      selected = @game_board.white_pieces.find{|piece| piece.yx == yx}
+    else
+      selected = @game_board.black_pieces.find{|piece| piece.yx == yx}
+    end
   end
 
 end
