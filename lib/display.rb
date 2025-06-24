@@ -18,4 +18,8 @@ module Display
     display_board
   end
 
+  def display_selected_piece
+    puts @selected_piece ? "Selected: #{@selected_piece.icon}" : "invalid selection"
+  end
+
 end

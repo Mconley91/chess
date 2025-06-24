@@ -10,6 +10,8 @@ class Game
     @player_turn = 'White'
     @round = 1
     @turn = 0
+    @selected_piece = nil
+    @selected_square = nil
   end
 
   include Display
@@ -20,11 +22,18 @@ class Game
 
   def handle_play
     loop do
+      self.set_game
       self.display_game
-      # returns a valid coordinate input for use in selecting & playing pieces
-      self.select_piece(self.get_input)
-      #selecting and moving a piece will be a 2 step process
-      #players should be able to 'deselect' a piece if they have not chosen a tile to move to
+      loop do
+        self.set_select_piece(self.get_input)
+        self.display_selected_piece
+        break if @selected_piece
+      end
+      loop do
+        self.select_square(self.get_input)
+        break if @selected_square
+      end
+      self.execute_move
       #determine winner/draw here
       self.next_turn
     end
@@ -73,12 +82,21 @@ class Game
     @player_turn = @player_turn == 'White' ? 'Black' : 'White'
   end
 
-  def select_piece(yx)
+  def set_select_piece(yx)
     if @player_turn == 'White'
-      selected = @game_board.white_pieces.find{|piece| piece.yx == yx}
+      @selected_piece = @game_board.white_pieces.find{|piece| piece.yx == yx}
     else
-      selected = @game_board.black_pieces.find{|piece| piece.yx == yx}
+      @selected_piece = @game_board.black_pieces.find{|piece| piece.yx == yx}
     end
+  end
+
+  def select_square(yx)
+    @selected_square = yx # square selection will be a little more complex later
+  end
+
+  def execute_move
+    @game_board.squares[@selected_piece.yx[0]][@selected_piece.yx[1]] = '_'
+    @selected_piece.yx = @selected_square
   end
 
 end
