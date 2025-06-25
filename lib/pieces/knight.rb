@@ -6,7 +6,7 @@ class Knight < Piece
   attr_reader :icon
 
   def initialize(color, yx)
-    @icon = color == 'white' ? "\u{2658}" : "\u{265E}"
+    @icon = color == 'clear' ? "\u{2658}" : "\u{265E}"
     super
   end
 

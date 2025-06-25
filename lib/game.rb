@@ -7,7 +7,7 @@ class Game
   
   def initialize
     @game_board = Board.new()
-    @player_turn = 'White'
+    @player_turn = 'Clear'
     @round = 1
     @turn = 0
     @selected_piece = nil
@@ -17,33 +17,34 @@ class Game
   include Display
 
   def set_game
-    @game_board.set_pieces
+    @game_board.set_piece_positions
   end
 
   def handle_play
     loop do
       self.set_game
-      self.display_game
       loop do
+        self.display_game
         self.set_select_piece(self.get_input)
-        self.display_selected_piece
         break if @selected_piece
       end
       loop do
+        self.display_game
         self.select_square(self.get_input)
         break if @selected_square
       end
       self.execute_move
+      self.take_piece
       #determine winner/draw here
       self.next_turn
+      @selected_piece = nil
+      @selected_square = nil
     end
   end
 
   def get_input
-    loop do
-      input = gets.chomp.downcase.split('')
-      return convert_to_yx(input) if play_validator(input)
-    end
+    input = gets.chomp.downcase.split('')
+    return convert_to_yx(input) if play_validator(input)
   end
 
   def convert_to_yx(input)
@@ -72,21 +73,20 @@ class Game
 
   def play_validator(play)
     return true if  %w"a b c d e f g h".any?(play[0]) && play[1].to_i.between?(1,8) && play.length == 2
-    p 'invalid entry'
     false
   end
 
   def next_turn
     self.turn += 1
     if self.turn.even? then self.round += 1 end
-    @player_turn = @player_turn == 'White' ? 'Black' : 'White'
+    @player_turn = @player_turn == 'Clear' ? 'Solid' : 'Clear'
   end
 
   def set_select_piece(yx)
-    if @player_turn == 'White'
-      @selected_piece = @game_board.white_pieces.find{|piece| piece.yx == yx}
+    if @player_turn == 'Clear'
+      @selected_piece = @game_board.clear_pieces.find{|piece| piece.yx == yx && piece.in_play}
     else
-      @selected_piece = @game_board.black_pieces.find{|piece| piece.yx == yx}
+      @selected_piece = @game_board.solid_pieces.find{|piece| piece.yx == yx && piece.in_play}
     end
   end
 
@@ -95,8 +95,17 @@ class Game
   end
 
   def execute_move
+    # will need movement rules applied per piece
     @game_board.squares[@selected_piece.yx[0]][@selected_piece.yx[1]] = '_'
     @selected_piece.yx = @selected_square
+  end
+
+  def take_piece
+    if @player_turn == 'Clear'
+      @game_board.solid_pieces.find{|piece| piece.in_play = false if piece.yx == @selected_square}
+    else
+      @game_board.clear_pieces.find{|piece| piece.in_play = false if piece.yx == @selected_square}
+    end
   end
 
 end

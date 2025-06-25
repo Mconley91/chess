@@ -6,7 +6,7 @@ class Pawn < Piece
   attr_reader :icon
 
   def initialize(color, yx)
-    @icon = color == 'white' ? "\u{2659}" : "\u{265F}"
+    @icon = color == 'clear' ? "\u{2659}" : "\u{265F}"
     super
   end
 

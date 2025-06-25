@@ -6,7 +6,7 @@ class Bishop < Piece
   attr_reader :icon
 
   def initialize(color, yx)
-    @icon = color == 'white' ? "\u{2657}" : "\u{265D}"
+    @icon = color == 'clear' ? "\u{2657}" : "\u{265D}"
     super
   end
 

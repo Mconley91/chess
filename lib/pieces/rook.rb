@@ -6,7 +6,7 @@ class Rook < Piece
   attr_reader :icon
 
   def initialize(color, yx)
-    @icon = color == 'white' ? "\u{2656}" : "\u{265C}"
+    @icon = color == 'clear' ? "\u{2656}" : "\u{265C}"
     super
   end
 
