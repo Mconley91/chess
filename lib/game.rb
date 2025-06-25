@@ -60,21 +60,16 @@ class Game
 
   def select_square(yx)
     if @player_turn == 'Clear'
-      if @game_board.clear_pieces.find do |piece| 
-        @selected_piece = piece if piece.yx == yx && piece.in_play 
-        end
+      if @game_board.clear_pieces.find {|piece| @selected_piece = piece if piece.yx == yx && piece.in_play}
       else
         @selected_square = yx
       end
     else
-      if @game_board.solid_pieces.find do |piece| 
-        @selected_piece = piece if piece.yx == yx && piece.in_play 
-        end
+      if @game_board.solid_pieces.find {|piece| @selected_piece = piece if piece.yx == yx && piece.in_play}
       else
         @selected_square = yx
       end
     end
-    
   end
 
   def execute_move
