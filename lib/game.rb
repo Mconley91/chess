@@ -19,7 +19,7 @@ class Game
   include Input
 
   def set_game
-    @game_board.set_piece_positions
+    @game_board.render_pieces
   end
 
   def handle_play
@@ -60,13 +60,13 @@ class Game
 
   def select_square(yx)
     if @player_turn == 'Clear'
-      if friendly_collision?(yx,@game_board.clear_pieces)
+      if friendly_collision?(yx, @game_board.clear_pieces)
         set_select_piece(yx)
       else
         @selected_square = yx
       end
     else
-      if friendly_collision?(yx,@game_board.solid_pieces)
+      if friendly_collision?(yx, @game_board.solid_pieces)
         set_select_piece(yx)
       else
         @selected_square = yx
@@ -74,7 +74,7 @@ class Game
     end
   end
 
-  def friendly_collision?(yx,color_pieces)
+  def friendly_collision?(yx, color_pieces)
     return true if color_pieces.find {|piece| piece.yx == yx && piece.in_play}
     false
   end

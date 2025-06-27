@@ -44,7 +44,7 @@ class Board
     end   
   end
 
-  def set_piece_positions
+  def render_pieces
     @clear_pieces.each do|piece| 
       @squares[piece.yx[0]][piece.yx[1]] = piece.icon if piece.in_play
     end
