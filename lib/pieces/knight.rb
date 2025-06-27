@@ -10,4 +10,7 @@ class Knight < Piece
     super
   end
 
+  def legal_move?(target, selected_color, clears, solids)
+    
+  end
 end

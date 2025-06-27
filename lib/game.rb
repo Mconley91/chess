@@ -33,7 +33,8 @@ class Game
       loop do
         self.display_game
         self.select_square(self.get_input)
-        break if @selected_square
+        break if @selected_piece.legal_move?(@selected_square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
+        @selected_square = nil
       end
       self.execute_move
       self.take_piece
@@ -80,7 +81,6 @@ class Game
   end
 
   def execute_move
-    # will need movement rules applied per piece
     @game_board.squares[@selected_piece.yx[0]][@selected_piece.yx[1]] = '_'
     @selected_piece.yx = @selected_square
   end
