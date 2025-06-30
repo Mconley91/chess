@@ -4,7 +4,7 @@ require './lib/display.rb'
 require './lib/input.rb'
 
 class Game 
-  attr_accessor :game_board, :player_turn, :round, :turn, :can_en_passant
+  attr_accessor :game_board, :player_turn, :round, :turn, :piece_triggered_en_passant
   
   def initialize
     @game_board = Board.new()
@@ -13,7 +13,7 @@ class Game
     @turn = 0
     @selected_piece = nil
     @selected_square = nil
-    @can_en_passant = false
+    @piece_triggered_en_passant = nil
   end
 
   include Display
@@ -26,7 +26,7 @@ class Game
   def handle_play
     loop do
       self.set_game
-      p "#{"Can En Passant" if @can_en_passant}"
+      p "#{"#{@piece_triggered_en_passant} Triggered En Passant" if @piece_triggered_en_passant}"
       loop do
         self.display_game
         self.set_select_piece(self.get_input)
@@ -38,7 +38,7 @@ class Game
         break if @selected_piece.legal_move?(@selected_square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
         @selected_square = nil
       end
-      @can_en_passant = false
+      @piece_triggered_en_passant = nil
       self.check_for_en_passant if @selected_piece.class == Pawn
       self.execute_move
       self.take_piece
@@ -99,9 +99,9 @@ class Game
 
   def check_for_en_passant
     if @player_turn == 'Clear' 
-      @can_en_passant = @selected_piece.yx[0] - @selected_square[0] == 2 ? true : false
+      @piece_triggered_en_passant = @selected_piece.yx[0] - @selected_square[0] == 2 ? @selected_piece : nil
     else
-      @can_en_passant = @selected_square[0] - @selected_piece.yx[0] == 2 ? true : false
+      @piece_triggered_en_passant = @selected_square[0] - @selected_piece.yx[0] == 2 ? @selected_piece : nil
     end
   end
 

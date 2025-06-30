@@ -11,7 +11,6 @@ class Pawn < Piece
   end
 
   def legal_move?(target, selected_color, clears, solids)
-    
     if selected_color == 'Clear'
       enemy_present = solids.find{|piece| piece.yx == target && piece.in_play}
       return true if target == [self.yx[0] - 1, self.yx[1]] && !enemy_present
