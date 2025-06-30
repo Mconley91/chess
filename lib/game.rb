@@ -26,7 +26,7 @@ class Game
   def handle_play
     loop do
       self.set_game
-      p "#{"#{@piece_triggered_en_passant} Triggered En Passant" if @piece_triggered_en_passant}"
+      p "#{"#{@piece_triggered_en_passant.icon} Triggered En Passant" if @piece_triggered_en_passant}"
       loop do
         self.display_game
         self.set_select_piece(self.get_input)
@@ -35,11 +35,11 @@ class Game
       loop do
         self.display_game
         self.select_square(self.get_input)
-        break if @selected_piece.legal_move?(@selected_square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
+        break if @selected_piece.legal_move?(@selected_square, @player_turn, 
+        @game_board.clear_pieces, @game_board.solid_pieces, @piece_triggered_en_passant)
         @selected_square = nil
       end
-      @piece_triggered_en_passant = nil
-      self.check_for_en_passant if @selected_piece.class == Pawn
+      self.check_for_en_passant
       self.execute_move
       self.take_piece
       #determine winner/draw here
@@ -98,11 +98,16 @@ class Game
   end
 
   def check_for_en_passant
-    if @player_turn == 'Clear' 
-      @piece_triggered_en_passant = @selected_piece.yx[0] - @selected_square[0] == 2 ? @selected_piece : nil
-    else
-      @piece_triggered_en_passant = @selected_square[0] - @selected_piece.yx[0] == 2 ? @selected_piece : nil
+    if @selected_piece.class == Pawn
+      if @player_turn == 'Clear' 
+        @piece_triggered_en_passant = @selected_piece.yx[0] - @selected_square[0] == 2 ? @selected_piece : nil
+        return
+      else
+        @piece_triggered_en_passant = @selected_square[0] - @selected_piece.yx[0] == 2 ? @selected_piece : nil
+        return
+      end
     end
+    @piece_triggered_en_passant = nil
   end
 
 end
