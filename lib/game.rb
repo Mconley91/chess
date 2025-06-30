@@ -4,7 +4,7 @@ require './lib/display.rb'
 require './lib/input.rb'
 
 class Game 
-  attr_accessor :game_board, :player_turn, :round, :turn
+  attr_accessor :game_board, :player_turn, :round, :turn, :can_en_passant
   
   def initialize
     @game_board = Board.new()
@@ -13,6 +13,7 @@ class Game
     @turn = 0
     @selected_piece = nil
     @selected_square = nil
+    @can_en_passant = false
   end
 
   include Display
@@ -25,6 +26,7 @@ class Game
   def handle_play
     loop do
       self.set_game
+      p "#{"Can En Passant" if @can_en_passant}"
       loop do
         self.display_game
         self.set_select_piece(self.get_input)
@@ -36,6 +38,8 @@ class Game
         break if @selected_piece.legal_move?(@selected_square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
         @selected_square = nil
       end
+      @can_en_passant = false
+      self.check_for_en_passant if @selected_piece.class == Pawn
       self.execute_move
       self.take_piece
       #determine winner/draw here
@@ -90,6 +94,14 @@ class Game
       @game_board.solid_pieces.find{|piece| piece.in_play = false if piece.yx == @selected_square}
     else
       @game_board.clear_pieces.find{|piece| piece.in_play = false if piece.yx == @selected_square}
+    end
+  end
+
+  def check_for_en_passant
+    if @player_turn == 'Clear' 
+      @can_en_passant = @selected_piece.yx[0] - @selected_square[0] == 2 ? true : false
+    else
+      @can_en_passant = @selected_square[0] - @selected_piece.yx[0] == 2 ? true : false
     end
   end
 
