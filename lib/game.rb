@@ -35,8 +35,9 @@ class Game
       loop do
         self.display_game
         self.select_square(self.get_input)
-        break if @selected_piece.legal_move?(@selected_square, @player_turn, 
-        @game_board.clear_pieces, @game_board.solid_pieces, @en_passant_offender)
+        args = [@selected_square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces]
+        args << @en_passant_offender if @selected_piece.is_a?(Pawn)
+        break if @selected_piece.legal_move?(*args)
         @selected_square = nil
       end
       self.set_en_passant_offender
