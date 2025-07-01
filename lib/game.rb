@@ -26,6 +26,7 @@ class Game
   def handle_play
     loop do
       self.set_game
+      @game_board.solid_pieces.each{|piece| p piece.in_play}
       loop do
         self.display_game
         self.set_select_piece(self.get_input)
@@ -39,8 +40,8 @@ class Game
         @selected_square = nil
       end
       self.set_en_passant_offender
-      self.execute_move
       self.take_piece
+      self.execute_move
       #determine winner/draw here
       self.next_turn
       @selected_piece = nil
@@ -84,7 +85,7 @@ class Game
   end
 
   def execute_move
-    @game_board.squares[@selected_piece.yx[0]][@selected_piece.yx[1]] = '_'
+    # @game_board.squares[@selected_piece.yx[0]][@selected_piece.yx[1]] = '_'
     @selected_piece.yx = @selected_square
   end
 

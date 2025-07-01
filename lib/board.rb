@@ -44,13 +44,16 @@ class Board
     end   
   end
 
-  def render_pieces
-    @clear_pieces.each do|piece| 
-      @squares[piece.yx[0]][piece.yx[1]] = piece.icon if piece.in_play
-    end
-    @solid_pieces.each do|piece| 
-      @squares[piece.yx[0]][piece.yx[1]] = piece.icon if piece.in_play
-    end
+  def render_pieces #WORKING HERE
+    @squares.each_with_index{|row,row_i| row.each_with_index{|square,square_i| 
+      @clear_pieces.each{|piece| @squares[row_i][square_i] = piece.yx == [row_i,square_i] ? piece.icon : '_'}}}
+
+    # @clear_pieces.each do|piece| 
+    #   @squares[piece.yx[0]][piece.yx[1]] = piece.icon if piece.in_play
+    # end
+    # @solid_pieces.each do|piece| 
+    #   @squares[piece.yx[0]][piece.yx[1]] = piece.icon if piece.in_play
+    # end
   end
 
 end
