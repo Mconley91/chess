@@ -10,8 +10,8 @@ class Bishop < Piece
     super
   end
 
-  def legal_move?(target, selected_color, clears, solids)
-    if target
+  def legal_move?(target, selected_color, clears, solids) # WIP !!
+    if target 
       all_pieces = clears + solids
 
       # ranges are ordered low to high
@@ -21,9 +21,15 @@ class Bishop < Piece
       squares = []
 
       # makes usable coordinates from ranges
-      y_range.each_with_index{|y_cord, index| squares << [y_cord, x_range[index]]}
+      y_range.each_with_index{|cord, index| squares << [y_range[index], x_range[index]]}
       p squares
-    end
 
+      # prevents 'jumping' over pieces between self & target
+      pieces_between = squares.find{|coords| all_pieces.any?{|piece| piece.yx == coords && piece != self &&
+       piece.yx != target && piece.in_play}}
+
+       return true if target[1] != self.yx[1] && target[0] != self.yx[0] && !pieces_between
+    end
   end
+
 end
