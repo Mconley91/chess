@@ -21,7 +21,7 @@ module En_Passant
         end
       else
         if @selected_square == [@en_passant_offender.yx[0] + 1, @en_passant_offender.yx[1]]
-          execute_en_passant(@game_board.solid_pieces)
+          execute_en_passant(@game_board.clear_pieces)
         end
       end
     end
