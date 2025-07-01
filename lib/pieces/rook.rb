@@ -28,8 +28,8 @@ class Rook < Piece
       pieces_on_x = x_squares.find{|coords| all_pieces.any?{|piece| piece.yx == coords && piece != self && 
        piece.yx != target && piece.in_play}}
 
-      return true if target[0].between?(0,7) && target[1] == self.yx[1] && self.yx[0] && !pieces_on_y # vertical move
-      return true if target[0] == self.yx[0] && target[1].between?(0,7) && !pieces_on_x # horizontal move
+      return true if target[1] == self.yx[1] && !pieces_on_y # vertical move
+      return true if target[0] == self.yx[0] && !pieces_on_x # horizontal move
     end
   end
 
