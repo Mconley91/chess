@@ -17,14 +17,18 @@ module En_Passant
     if @en_passant_offender
       if @player_turn == 'Clear' 
         if @selected_square == [@en_passant_offender.yx[0] - 1, @en_passant_offender.yx[1]]
-          @game_board.solid_pieces.find{|piece| piece.in_play = false if piece.yx == @en_passant_offender.yx}
+          execute_en_passant(@game_board.solid_pieces)
         end
       else
         if @selected_square == [@en_passant_offender.yx[0] + 1, @en_passant_offender.yx[1]]
-          @game_board.clear_pieces.find{|piece| piece.in_play = false if piece.yx == @en_passant_offender.yx}
+          execute_en_passant(@game_board.solid_pieces)
         end
       end
     end
+  end
+
+  def execute_en_passant(pieces)
+    pieces.find{|piece| piece.in_play = false if piece.yx == @en_passant_offender.yx}
   end
 
 end
