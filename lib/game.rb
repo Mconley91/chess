@@ -18,6 +18,7 @@ class Game
 
   include Display
   include Input
+  include En_Passant
 
   def set_game
     @game_board.render_pieces
@@ -26,7 +27,6 @@ class Game
   def handle_play
     loop do
       self.set_game
-      @game_board.solid_pieces.each{|piece| p piece.in_play}
       loop do
         self.display_game
         self.set_select_piece(self.get_input)
@@ -85,7 +85,6 @@ class Game
   end
 
   def execute_move
-    # @game_board.squares[@selected_piece.yx[0]][@selected_piece.yx[1]] = '_'
     @selected_piece.yx = @selected_square
   end
 
@@ -96,32 +95,6 @@ class Game
     else
       @game_board.clear_pieces.find{|piece| piece.in_play = false if piece.yx == @selected_square}
       self.detect_en_passant_play 
-    end
-  end
-
-  def set_en_passant_offender
-    if @selected_piece.class == Pawn
-      if @player_turn == 'Clear' 
-        @en_passant_offender = @selected_piece if @selected_piece.yx[0] - @selected_square[0] == 2
-        return
-      else
-        @en_passant_offender = @selected_piece if @selected_square[0] - @selected_piece.yx[0] == 2
-        return
-      end
-    end
-  end
-
-  def detect_en_passant_play
-    if @en_passant_offender
-      if @player_turn == 'Clear' 
-        if @selected_square == [@en_passant_offender.yx[0] - 1, @en_passant_offender.yx[1]]
-          @game_board.solid_pieces.find{|piece| piece.in_play = false if piece.yx == @en_passant_offender.yx}
-        end
-      else
-        if @selected_square == [@en_passant_offender.yx[0] + 1, @en_passant_offender.yx[1]]
-          @game_board.clear_pieces.find{|piece| piece.in_play = false if piece.yx == @en_passant_offender.yx}
-        end
-      end
     end
   end
 
