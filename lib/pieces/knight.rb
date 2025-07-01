@@ -11,6 +11,13 @@ class Knight < Piece
   end
 
   def legal_move?(target, selected_color, clears, solids)
-    
+    return true if target == [self.yx[0] + 1, self.yx[1] + 2]
+    return true if target == [self.yx[0] + 2, self.yx[1] + 1]
+    return true if target == [self.yx[0] + 2, self.yx[1] - 1]
+    return true if target == [self.yx[0] + 1, self.yx[1] - 2]
+    return true if target == [self.yx[0] - 1, self.yx[1] - 2]
+    return true if target == [self.yx[0] - 2, self.yx[1] - 1]
+    return true if target == [self.yx[0] - 2, self.yx[1] + 1]
+    return true if target == [self.yx[0] - 1, self.yx[1] + 2]
   end
 end
