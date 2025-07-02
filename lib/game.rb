@@ -36,6 +36,7 @@ class Game
         self.display_game
         self.select_square(self.get_input)
         break if @selected_piece.legal_move?(*make_arguments)
+        @selected_square = nil # prevents unexpected behavior if friendly piece is selected instead of a square
       end
       self.set_en_passant_offender
       self.take_piece
