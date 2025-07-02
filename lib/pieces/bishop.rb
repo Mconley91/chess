@@ -10,7 +10,7 @@ class Bishop < Piece
     super
   end
 
-  def legal_move?(target, selected_color, clears, solids) # WIP !!
+  def legal_move?(target, selected_color, clears, solids)
     if target 
       all_pieces = clears + solids
       squares = [self.yx]
