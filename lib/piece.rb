@@ -9,7 +9,7 @@ class Piece
   def plot_path(piece, target)
     path = [piece]
     until path.last == target
-      p path
+      p path # testing code, delete later
       return nil if path.length > 8 # prevents game break when path unobtainable 
       y_coord = target[0] == piece[0] ? 0 : target[0] > piece[0] ? 1 : -1
       x_coord = target[1] == piece[1] ? 0 : target[1] > piece[1] ? 1 : -1
