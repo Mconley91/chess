@@ -32,3 +32,16 @@ module En_Passant
   end
 
 end
+
+module Checkmate
+  def in_check?(player, clear_pieces, solid_pieces)
+    if player == 'Clear'
+      clear_pieces.find{|piece| piece.is_a?(King)}.is_in_check?
+    else # if 'Solid'
+      solid_pieces.find{|piece| piece.is_a?(King)}.is_in_check?
+    end
+  end
+
+end
+
+  

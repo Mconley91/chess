@@ -19,6 +19,7 @@ class Game
   include Display
   include Input
   include En_Passant
+  include Checkmate
 
   def set_game
     @game_board.render_pieces
@@ -43,6 +44,7 @@ class Game
       self.execute_move
       #determine winner/draw here
       self.next_turn
+      self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
       @selected_piece = nil
       @selected_square = nil
     end
