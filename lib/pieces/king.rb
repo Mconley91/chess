@@ -27,13 +27,23 @@ class King < Piece
     end
   end
 
-  def is_in_check?
+  def is_in_check?(player, clears, solids)
     perpendicular_paths = self.get_perpendicular_paths # can be obstructed by bishops, pawns, kings, knights, & allies
     diagonal_paths = self.get_diagonal_paths # can be obstructed by rooks, pawns, kings, knights, & allies
     knight_positions = self.get_knight_positions # unobstructable, just check if enemy knight is present
+    
+
+    if player == 'Clear' # WORKING HERE
+      # Now that we can see the possible locations an enemy piece might be, we need to identify the location of any enemy in range
+      # and determine if it is obstructed by a friendly or a compatible enemy piece
+      enemy_present = solids.any?{|piece| perpendicular_paths.any?{|path| path.any?{|coord| piece.yx == coord }} && piece.in_play}
+
+    else # if 'Solid'
+
+    end
 
     # testing outputs -----------------------------
-    puts "King Color: #{@color}"
+    puts "King Color: #{player}"
     puts "Perpendicular: "
     perpendicular_paths.each{|path| p path}
     puts "Diagonal: "
