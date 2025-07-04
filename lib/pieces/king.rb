@@ -28,15 +28,14 @@ class King < Piece
   end
 
   def is_in_check?
-    horizontal_paths = self.plot_path([self.yx[0],0], [self.yx[0],7]) # can be obstructed by bishops, pawns, kings, knights, & allies
-    vertical_paths = self.plot_path([0, self.yx[1]], [7, self.yx[1]]) # can be obstructed by bishops, pawns, kings, knights, & allies
+    perpendicular_paths = self.get_perpendicular_paths # can be obstructed by bishops, pawns, kings, knights, & allies
     diagonal_paths = self.get_diagonal_paths # can be obstructed by rooks, pawns, kings, knights, & allies
-    knight_positions = self.get_knight_positions # unobstructable
+    knight_positions = self.get_knight_positions # unobstructable, just check if enemy knight is present
 
     # testing outputs -----------------------------
     puts "King Color: #{@color}"
-    puts "Horizontal: #{horizontal_paths}"
-    puts "Vertical: #{vertical_paths}"
+    puts "Perpendicular: "
+    perpendicular_paths.each{|path| p path}
     puts "Diagonal: "
     diagonal_paths.each{|path| p path}
     puts "Knights: "
@@ -52,27 +51,57 @@ class King < Piece
     lower_right = [self.yx]
     lower_left = [self.yx]
 
-    8.times do # looking towards upper right corner
+    8.times do
       if upper_right.last[0] - 1 >= 0 && upper_right.last[1] + 1 < 8
         upper_right << [upper_right.last[0] - 1, upper_right.last[1] + 1]
       end
     end
-    8.times do # looking towards upper left corner
+    8.times do 
       if upper_left.last[0] - 1 >= 0 && upper_left.last[1] - 1 >= 0
         upper_left << [upper_left.last[0] - 1, upper_left.last[1] - 1]
       end
     end
-    8.times do # looking towards lower right corner
+    8.times do
       if lower_right.last[0] + 1 < 8 && lower_right.last[1] + 1 < 8
         lower_right << [lower_right.last[0] + 1, lower_right.last[1] + 1]
       end
     end
-    8.times do # looking towards lower left corner
+    8.times do
       if lower_left.last[0] + 1 < 8 && lower_left.last[1] - 1 >= 0
         lower_left << [lower_left.last[0] + 1, lower_left.last[1] - 1] 
       end
     end
     paths = [upper_right, upper_left, lower_right, lower_left]
+    paths
+  end
+
+  def get_perpendicular_paths
+    up = [self.yx]
+    down = [self.yx]
+    left = [self.yx]
+    right = [self.yx]
+
+    8.times do
+      if up.last[0] - 1 >= 0
+        up << [up.last[0] - 1, up.last[1]]
+      end
+    end
+    8.times do
+      if down.last[0] + 1 < 8
+        down << [down.last[0] + 1, down.last[1]]
+      end
+    end
+    8.times do 
+      if left.last[1] - 1 >= 0
+        left << [left.last[0], left.last[1] - 1]
+      end
+    end
+    8.times do
+      if right.last[1] + 1 < 8
+        right << [right.last[0], right.last[1] + 1] 
+      end
+    end
+    paths = [up, down, left, right]
     paths
   end
 
