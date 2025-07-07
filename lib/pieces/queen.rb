@@ -3,10 +3,11 @@
 require './lib/piece.rb'
 
 class Queen < Piece
-  attr_reader :icon
+  attr_reader :icon, :color
 
   def initialize(color, yx)
     @icon = color == 'clear' ? "\u{2655}" : "\u{265B}"
+    @color = color
     super
   end
 

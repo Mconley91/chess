@@ -3,10 +3,11 @@
 require './lib/piece.rb'
 
 class Pawn < Piece
-  attr_reader :icon
+  attr_reader :icon, :color
 
   def initialize(color, yx)
     @icon = color == 'clear' ? "\u{2659}" : "\u{265F}"
+    @color = color
     super
   end
 

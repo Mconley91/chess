@@ -3,10 +3,11 @@
 require './lib/piece.rb'
 
 class Bishop < Piece
-  attr_reader :icon
+  attr_reader :icon, :color
 
   def initialize(color, yx)
     @icon = color == 'clear' ? "\u{2657}" : "\u{265D}"
+    @color = color
     super
   end
 

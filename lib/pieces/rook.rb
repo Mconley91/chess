@@ -3,10 +3,11 @@
 require './lib/piece.rb'
 
 class Rook < Piece
-  attr_reader :icon
+  attr_reader :icon, :color
 
   def initialize(color, yx)
     @icon = color == 'clear' ? "\u{2656}" : "\u{265C}"
+    @color = color
     super
   end
 

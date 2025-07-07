@@ -28,31 +28,24 @@ class King < Piece
   end
 
   def is_in_check?(player, clears, solids)
+    all_pieces = clears + solids
     perpendicular_paths = self.get_perpendicular_paths # can be obstructed by bishops, pawns, kings, knights, & allies
     diagonal_paths = self.get_diagonal_paths # can be obstructed by rooks, pawns, kings, knights, & allies
     knight_positions = self.get_knight_positions # unobstructable, just check if enemy knight is present
     
-
-    if player == 'Clear' # WORKING HERE
-      # Now that we can see the possible locations an enemy piece might be, we need to identify the location of any enemy in range
-      # and determine if it is obstructed by a friendly or a compatible enemy piece
-      enemy_present = solids.any?{|piece| perpendicular_paths.any?{|path| path.any?{|coord| piece.yx == coord }} && piece.in_play}
-
-    else # if 'Solid'
-
-    end
+    self.find_perpendicular_threats(perpendicular_paths, player, all_pieces)
 
     # testing outputs -----------------------------
-    puts "King Color: #{player}"
-    puts "Perpendicular: "
-    perpendicular_paths.each{|path| p path}
-    puts "Diagonal: "
-    diagonal_paths.each{|path| p path}
-    puts "Knights: "
-    knight_positions.each{|position| p position }
+    # puts "King Color: #{player}"
+    # puts "Perpendicular: "
+    # perpendicular_paths.each{|path| p path}
+    # puts "Diagonal: "
+    # diagonal_paths.each{|path| p path}
+    # puts "Knights: "
+    # knight_positions.each{|position| p position }
     # ----------------------------------------------
 
-    return 'a boolean!'
+    # return a boolean if this king is in check!!!
   end
 
   def get_diagonal_paths
@@ -128,6 +121,24 @@ class King < Piece
       [self.yx[0] - 1, self.yx[1] + 2] ]
     all_positions.each{|position| valid_positions << position if position[0].between?(0,7) && position[1].between?(0,7)}
     valid_positions
+  end
+
+
+  # can be obstructed by bishops, pawns, kings, knights, & allies
+  def find_perpendicular_threats(paths, player, all_pieces)
+    color = player.downcase
+    paths.each do|path| 
+      path.each do |coord| 
+        piece_at_coord = all_pieces.find{|piece| piece.yx == coord}
+
+        if piece_at_coord && !piece_at_coord.is_a?(Bishop) && !piece_at_coord.is_a?(Pawn) && 
+                             !piece_at_coord.is_a?(King) && !piece_at_coord.is_a?(Knight) &&
+                              piece_at_coord.color != color
+          puts "Check from: #{piece_at_coord.class}"
+        end
+
+      end
+    end
   end
 
 end
