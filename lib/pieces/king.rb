@@ -30,13 +30,8 @@ class King < Piece
   def is_in_check?(player, clears, solids)
     color = player.downcase
     all_pieces = clears + solids
-    perpendicular_paths = self.get_perpendicular_paths 
-    diagonal_paths = self.get_diagonal_paths 
-    knight_positions = self.get_knight_positions
-    
-    self.find_perpendicular_threats(perpendicular_paths, color, all_pieces) # looks for hostile unobstructed Queens and Rooks
-    self.find_diagonal_threats(diagonal_paths, color, all_pieces) # will look for hostile unobstructed Bishops, Queens, and Pawns
-    self.find_knight_threats(knight_positions, color, all_pieces) # will look for hostile Knights, regardless of obstruction
+    self.find_checks(color, all_pieces)
+
 
     # testing outputs -----------------------------
     # puts "King Color: #{player}"
@@ -126,17 +121,18 @@ class King < Piece
     valid_positions
   end
 
+  def find_checks(color, all_pieces)
+    perpendicular_paths = self.get_perpendicular_paths 
+    diagonal_paths = self.get_diagonal_paths 
+    knight_positions = self.get_knight_positions
+    checking_pieces = []
 
-  # can be obstructed by bishops, pawns, kings, knights, & allies
-  def find_perpendicular_threats(paths, color, all_pieces)
-    threatening_pieces = []
-    paths.each do|path| 
+    perpendicular_paths.each do|path| 
       path.each do |coord| 
         piece_at_coord = all_pieces.find{|piece| piece.yx == coord && piece != self}
         if piece_at_coord
-          p piece_at_coord # troubleshooting code, remove later
-          if piece_at_coord.is_a?(Rook) && piece_at_coord.color != color || piece_at_coord.is_a?(Queen) && piece_at_coord.color != color
-            threatening_pieces << piece_at_coord
+          if enemy_rooks_and_queens(piece_at_coord, color)
+            checking_pieces << piece_at_coord
             break
           else
             break
@@ -144,15 +140,75 @@ class King < Piece
         end
       end
     end
-    threatening_pieces
+
+    diagonal_paths.each do|path| 
+      path.each do |coord| 
+        piece_at_coord = all_pieces.find{|piece| piece.yx == coord && piece != self}
+        if piece_at_coord
+          if enemy_bishops_and_queens(piece_at_coord, color)
+            checking_pieces << piece_at_coord
+            break
+          else
+            break
+          end
+        end
+      end
+    end
+
+    2.times do |coord| 
+      if color == 'clear'
+        right_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] + 1]}
+        left_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] - 1]}
+        pawn_positions = [right_piece, left_piece]
+        p pawn_positions
+      else # if solids
+        right_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] + 1]}
+        left_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] - 1]}
+        pawn_positions = [right_piece, left_piece]
+      end
+      pawn_positions.each do |pawn|
+        if pawn
+          if enemy_pawns(pawn, color)
+            checking_pieces << pawn
+            break
+          else
+            break
+          end
+        end
+      end
+    end
+
+    knight_positions.each do |position| 
+        piece_at_coord = all_pieces.find{|piece| piece.yx == position }
+        if piece_at_coord
+          if enemy_knights(piece_at_coord, color)
+            checking_pieces << piece_at_coord
+            break
+          else
+            break
+          end
+        end
+    end
+
+
+    p checking_pieces
+    checking_pieces
   end
 
-  def find_diagonal_threats(paths, color, all_pieces)
-    
+  def enemy_rooks_and_queens(piece, color)
+    piece.is_a?(Rook) && piece.color != color || piece.is_a?(Queen) && piece.color != color
   end
 
-  def find_knight_threats(paths, color, all_pieces)
-    
+  def enemy_bishops_and_queens(piece, color)
+    piece.is_a?(Bishop) && piece.color != color || piece.is_a?(Queen) && piece.color != color
+  end
+
+  def enemy_pawns(piece, color)
+    piece.is_a?(Pawn) && piece.color != color
+  end
+
+  def enemy_knights(piece, color)
+    piece.is_a?(Knight) && piece.color != color
   end
 
 end
