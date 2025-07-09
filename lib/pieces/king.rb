@@ -38,7 +38,7 @@ class King < Piece
     # testing outputs -----------------------------
     # puts "King Color: #{player}"
     # puts "Perpendicular: "
-    # perpendicular_paths.each{|path| p path}
+    perpendicular_paths.each{|path| p path}
     # puts "Diagonal: "
     # diagonal_paths.each{|path| p path}
     # puts "Knights: "
@@ -129,12 +129,17 @@ class King < Piece
     color = player.downcase
     paths.each do|path| 
       path.each do |coord| 
-        piece_at_coord = all_pieces.find{|piece| piece.yx == coord}
-
-        if piece_at_coord && !piece_at_coord.is_a?(Bishop) && !piece_at_coord.is_a?(Pawn) && 
-                             !piece_at_coord.is_a?(King) && !piece_at_coord.is_a?(Knight) &&
-                              piece_at_coord.color != color
-          puts "Check from: #{piece_at_coord.class}"
+        piece_at_coord = all_pieces.find{|piece| piece.yx == coord && piece != self}
+        
+        if piece_at_coord
+          p piece_at_coord # troubleshooting code, remove later
+          if piece_at_coord.is_a?(Rook) && piece_at_coord.color != color || piece_at_coord.is_a?(Queen) &&
+             piece_at_coord.color != color
+            puts "Check from: #{piece_at_coord.class}"
+            break
+          else
+            break
+          end
         end
 
       end

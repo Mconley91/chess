@@ -27,6 +27,9 @@ class Game
 
   def handle_play
     loop do
+      @selected_piece = nil
+      @selected_square = nil
+      self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
       self.set_game
       loop do
         self.display_game
@@ -44,9 +47,6 @@ class Game
       self.execute_move
       #determine winner/draw here
       self.next_turn
-      self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
-      @selected_piece = nil
-      @selected_square = nil
     end
   end
 
