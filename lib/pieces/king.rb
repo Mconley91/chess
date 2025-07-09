@@ -155,25 +155,24 @@ class King < Piece
       end
     end
 
-    2.times do |coord| 
-      if color == 'clear'
-        right_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] + 1]}
-        left_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] - 1]}
-        pawn_positions = [right_piece, left_piece]
-        p pawn_positions
-      else # if solids
-        right_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] + 1]}
-        left_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] - 1]}
-        pawn_positions = [right_piece, left_piece]
-      end
-      pawn_positions.each do |pawn|
-        if pawn
-          if enemy_pawns(pawn, color)
-            checking_pieces << pawn
-            break
-          else
-            break
-          end
+    # pawn checks
+    if color == 'clear'
+      right_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] + 1]}
+      left_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] - 1]}
+      pawn_positions = [right_piece, left_piece]
+      p pawn_positions
+    else # if solids
+      right_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] + 1]}
+      left_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] - 1]}
+      pawn_positions = [right_piece, left_piece]
+    end
+    pawn_positions.each do |pawn|
+      if pawn
+        if enemy_pawns(pawn, color)
+          checking_pieces << pawn
+          break
+        else
+          break
         end
       end
     end
