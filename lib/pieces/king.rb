@@ -160,7 +160,6 @@ class King < Piece
       right_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] + 1]}
       left_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] - 1]}
       pawn_positions = [right_piece, left_piece]
-      p pawn_positions
     else # if solids
       right_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] + 1]}
       left_piece = all_pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] - 1]}
@@ -170,7 +169,6 @@ class King < Piece
       if pawn
         if enemy_pawns(pawn, color)
           checking_pieces << pawn
-          break
         else
           break
         end
@@ -188,9 +186,7 @@ class King < Piece
           end
         end
     end
-
-
-    p checking_pieces
+    puts "PLAYER: #{color}, CHECK FROM: #{checking_pieces}" # helpful troubleshooting readout of pieces causing check
     checking_pieces
   end
 
