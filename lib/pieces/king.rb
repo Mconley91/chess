@@ -28,17 +28,20 @@ class King < Piece
   end
 
   def is_in_check?(player, clears, solids)
+    color = player.downcase
     all_pieces = clears + solids
-    perpendicular_paths = self.get_perpendicular_paths # can be obstructed by bishops, pawns, kings, knights, & allies
-    diagonal_paths = self.get_diagonal_paths # can be obstructed by rooks, pawns, kings, knights, & allies
-    knight_positions = self.get_knight_positions # unobstructable, just check if enemy knight is present
+    perpendicular_paths = self.get_perpendicular_paths 
+    diagonal_paths = self.get_diagonal_paths 
+    knight_positions = self.get_knight_positions
     
-    self.find_perpendicular_threats(perpendicular_paths, player, all_pieces)
+    self.find_perpendicular_threats(perpendicular_paths, color, all_pieces) # looks for hostile unobstructed Queens and Rooks
+    self.find_diagonal_threats(diagonal_paths, color, all_pieces) # will look for hostile unobstructed Bishops, Queens, and Pawns
+    self.find_knight_threats(knight_positions, color, all_pieces) # will look for hostile Knights, regardless of obstruction
 
     # testing outputs -----------------------------
     # puts "King Color: #{player}"
     # puts "Perpendicular: "
-    perpendicular_paths.each{|path| p path}
+    # perpendicular_paths.each{|path| p path}
     # puts "Diagonal: "
     # diagonal_paths.each{|path| p path}
     # puts "Knights: "
@@ -125,25 +128,31 @@ class King < Piece
 
 
   # can be obstructed by bishops, pawns, kings, knights, & allies
-  def find_perpendicular_threats(paths, player, all_pieces)
-    color = player.downcase
+  def find_perpendicular_threats(paths, color, all_pieces)
+    threatening_pieces = []
     paths.each do|path| 
       path.each do |coord| 
         piece_at_coord = all_pieces.find{|piece| piece.yx == coord && piece != self}
-        
         if piece_at_coord
           p piece_at_coord # troubleshooting code, remove later
-          if piece_at_coord.is_a?(Rook) && piece_at_coord.color != color || piece_at_coord.is_a?(Queen) &&
-             piece_at_coord.color != color
-            puts "Check from: #{piece_at_coord.class}"
+          if piece_at_coord.is_a?(Rook) && piece_at_coord.color != color || piece_at_coord.is_a?(Queen) && piece_at_coord.color != color
+            threatening_pieces << piece_at_coord
             break
           else
             break
           end
         end
-
       end
     end
+    threatening_pieces
+  end
+
+  def find_diagonal_threats(paths, color, all_pieces)
+    
+  end
+
+  def find_knight_threats(paths, color, all_pieces)
+    
   end
 
 end
