@@ -30,9 +30,7 @@ class King < Piece
   def is_in_check?(player, clears, solids)
     color = player.downcase
     all_pieces = clears + solids
-    self.find_checks(color, all_pieces)
-
-    # return a boolean if this king is in check!!!
+    return true if self.find_checks(color, all_pieces).length > 0
   end
 
   def get_diagonal_paths
@@ -117,7 +115,7 @@ class King < Piece
       self.diagonal_checks(diagonal_paths, all_pieces, color),
       self.pawn_checks(all_pieces, color),
       self.knight_checks(knight_positions, all_pieces, color)
-  ].flatten
+    ].flatten
     puts "PLAYER: #{color}, CHECK FROM: #{all_checks}" # helpful troubleshooting readout of pieces causing check
     all_checks
   end
@@ -126,7 +124,7 @@ class King < Piece
     checking_pieces = []
     paths.each do|path| 
       path.each do |coord| 
-        piece_at_coord = pieces.find{|piece| piece.yx == coord && piece != self}
+        piece_at_coord = pieces.find{|piece| piece.yx == coord && piece != self && piece.in_play}
         if piece_at_coord
           if enemy_rooks_and_queens(piece_at_coord, color)
             checking_pieces << piece_at_coord
@@ -144,7 +142,7 @@ class King < Piece
     checking_pieces = []
     paths.each do|path| 
       path.each do |coord| 
-        piece_at_coord = pieces.find{|piece| piece.yx == coord && piece != self}
+        piece_at_coord = pieces.find{|piece| piece.yx == coord && piece != self && piece.in_play}
         if piece_at_coord
           if enemy_bishops_and_queens(piece_at_coord, color)
             checking_pieces << piece_at_coord
@@ -161,12 +159,12 @@ class King < Piece
   def pawn_checks(pieces, color)
     checking_pieces = []
     if color == 'clear'
-      right_piece = pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] + 1]}
-      left_piece = pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] - 1]}
+      right_piece = pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] + 1] && piece.in_play}
+      left_piece = pieces.find{|piece| piece.yx == [self.yx[0] - 1, self.yx[1] - 1] && piece.in_play}
       pawn_positions = [right_piece, left_piece]
     else # if solids
-      right_piece = pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] + 1]}
-      left_piece = pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] - 1]}
+      right_piece = pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] + 1] && piece.in_play}
+      left_piece = pieces.find{|piece| piece.yx == [self.yx[0] + 1, self.yx[1] - 1] && piece.in_play}
       pawn_positions = [right_piece, left_piece]
     end
     pawn_positions.each do |pawn|
@@ -182,7 +180,7 @@ class King < Piece
   def knight_checks(positions, pieces, color)
     checking_pieces = []
     positions.each do |position| 
-        piece_at_coord = pieces.find{|piece| piece.yx == position }
+        piece_at_coord = pieces.find{|piece| piece.yx == position && piece.in_play}
         if piece_at_coord
           if enemy_knights(piece_at_coord, color)
             checking_pieces << piece_at_coord

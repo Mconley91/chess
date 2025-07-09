@@ -36,9 +36,13 @@ end
 module Checkmate
   def in_check?(player, clear_pieces, solid_pieces)
     if player == 'Clear'
-      clear_pieces.find{|piece| piece.is_a?(King)}.is_in_check?(player, clear_pieces, solid_pieces)
+      if clear_pieces.find{|piece| piece.is_a?(King)}.is_in_check?(player, clear_pieces, solid_pieces)
+        puts "#{player} is in check!"
+      end
     else # if 'Solid'
-      solid_pieces.find{|piece| piece.is_a?(King)}.is_in_check?(player, clear_pieces, solid_pieces)
+      if solid_pieces.find{|piece| piece.is_a?(King)}.is_in_check?(player, clear_pieces, solid_pieces)
+        puts "#{player} is in check!"
+      end
     end
   end
 
