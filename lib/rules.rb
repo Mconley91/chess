@@ -33,25 +33,30 @@ module En_Passant
 
 end
 
-module Checkmate
+module Checkmate # Refactor, separate #in_check? from #in_checkmate?
+
   def in_check?(player, clear_pieces, solid_pieces)
     if player == 'Clear'
       clear_king = clear_pieces.find{|piece| piece.is_a?(King)}
       if clear_king.is_in_check?(player, clear_pieces, solid_pieces)
-        puts "#{player} is in check!"
-        if clear_king.checkmate?(player, clear_pieces, solid_pieces)
-          puts "#{player} is in checkmate!"
-        end
+        return true
       end
     else # if 'Solid'
       solid_king = solid_pieces.find{|piece| piece.is_a?(King)}
       if solid_king.is_in_check?(player, clear_pieces, solid_pieces)
-        puts "#{player} is in check!"
-        if solid_king.checkmate?(player, clear_pieces, solid_pieces)
-          puts "#{player} is in checkmate!"
-        end
+        return true
       end
     end
+    false
+  end
+
+  def checkmate?
+    # if clear_king.checkmate?(player, clear_pieces, solid_pieces)
+    #   puts "#{player} is in checkmate!"
+    # end
+    # if solid_king.checkmate?(player, clear_pieces, solid_pieces)
+    #   puts "#{player} is in checkmate!"
+    # end
   end
 
 end

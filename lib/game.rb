@@ -4,7 +4,7 @@ require './lib/display.rb'
 require './lib/input.rb'
 
 class Game 
-  attr_accessor :game_board, :player_turn, :round, :turn, :en_passant_offender
+  attr_accessor :game_board, :player_turn, :round, :turn, :en_passant_offender, :in_check
   
   def initialize
     @game_board = Board.new()
@@ -14,6 +14,7 @@ class Game
     @selected_piece = nil
     @selected_square = nil
     @en_passant_offender = nil
+    @in_check = false
   end
 
   include Display
@@ -29,8 +30,9 @@ class Game
     loop do
       @selected_piece = nil
       @selected_square = nil
-      # look for check to determine if player must escape check this turn
-      self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces) 
+      # look for check to determine if player must escape check this turn. No other play can be made until Check is ended.
+      @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
+      puts "#{@player_turn} is in check!" if @in_check
       self.set_game
       loop do
         self.display_game
@@ -40,13 +42,13 @@ class Game
       loop do
         self.display_game
         self.select_square(self.get_input)
-        break if @selected_piece.legal_move?(*make_arguments)
+        break if @selected_piece.legal_move?(*make_arguments) # todo: determine if a move would free player from check
         @selected_square = nil # prevents unexpected behavior if friendly piece is selected instead of a square
       end
       self.set_en_passant_offender
       self.take_piece
       self.execute_move
-      # look for checkmate before beginning a new round
+      # look for checkmate before beginning a new round, end game if checkmate is true
       self.next_turn
     end
   end
