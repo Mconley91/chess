@@ -14,8 +14,11 @@ class Bishop < Piece
   def legal_move?(target, selected_color, clears, solids)
     if target 
       all_pieces = clears + solids
-      return true if target[0] != self.yx[0] && target[1] != self.yx[1] && 
-      self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) == false
+      kings = all_pieces.select{|piece| piece.is_a?(King)}
+      if kings.all?{|king| king.yx != target}
+        return true if target[0] != self.yx[0] && target[1] != self.yx[1] && 
+        self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) == false
+      end
     end
   end
 
