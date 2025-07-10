@@ -36,6 +36,20 @@ class King < Piece
     return true if self.find_checks(color, all_pieces).length > 0
   end
 
+  def find_checks(color, all_pieces)
+    perpendicular_paths = self.get_perpendicular_paths 
+    diagonal_paths = self.get_diagonal_paths 
+    knight_positions = self.get_knight_positions
+    all_checks = [
+      self.perpendicular_checks(perpendicular_paths, all_pieces, color),
+      self.diagonal_checks(diagonal_paths, all_pieces, color),
+      self.pawn_checks(all_pieces, color),
+      self.knight_checks(knight_positions, all_pieces, color)
+    ].flatten
+    puts "PLAYER: #{color}, CHECK FROM: #{all_checks}" # helpful troubleshooting readout of pieces causing check
+    all_checks
+  end
+
   def get_diagonal_paths
     upper_right = [self.yx]
     upper_left = [self.yx]
@@ -107,20 +121,6 @@ class King < Piece
       [self.yx[0] - 1, self.yx[1] + 2] ]
     all_positions.each{|position| valid_positions << position if position[0].between?(0,7) && position[1].between?(0,7)}
     valid_positions
-  end
-
-  def find_checks(color, all_pieces)
-    perpendicular_paths = self.get_perpendicular_paths 
-    diagonal_paths = self.get_diagonal_paths 
-    knight_positions = self.get_knight_positions
-    all_checks = [
-      self.perpendicular_checks(perpendicular_paths, all_pieces, color),
-      self.diagonal_checks(diagonal_paths, all_pieces, color),
-      self.pawn_checks(all_pieces, color),
-      self.knight_checks(knight_positions, all_pieces, color)
-    ].flatten
-    puts "PLAYER: #{color}, CHECK FROM: #{all_checks}" # helpful troubleshooting readout of pieces causing check
-    all_checks
   end
 
   def perpendicular_checks(paths, pieces, color)
