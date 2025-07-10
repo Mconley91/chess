@@ -46,7 +46,7 @@ class King < Piece
       self.pawn_checks(all_pieces, color),
       self.knight_checks(knight_positions, all_pieces, color)
     ].flatten
-    puts "PLAYER: #{color}, CHECK FROM: #{all_checks}" # helpful troubleshooting readout of pieces causing check
+    # puts "PLAYER: #{color}, CHECK FROM: #{all_checks}" # helpful troubleshooting readout of pieces causing check
     all_checks
   end
 
@@ -57,7 +57,6 @@ class King < Piece
     doomed_move = dummy_king.is_in_check?(color, clears, solids)
     self.in_play = true
     if doomed_move
-      puts "Invalid play! Moving into check."
       true
     end
   end
@@ -81,7 +80,7 @@ class King < Piece
       not_out_of_bounds.select{|move| clears.find{|piece| move == piece.yx} ? false : true} :
       not_out_of_bounds.select{|move| solids.find{|piece| move == piece.yx} ? false : true}
       not_moving_into_check = not_occupied_by_friends.select{|move| !moving_into_check?(move, color, clears, solids)}
-      p not_moving_into_check # troubleshooting code, remove later
+      # p not_moving_into_check # troubleshooting code, remove later
       if not_moving_into_check.length > 0
         return false
       else

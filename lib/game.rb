@@ -29,7 +29,8 @@ class Game
     loop do
       @selected_piece = nil
       @selected_square = nil
-      self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
+      # look for check to determine if player must escape check this turn
+      self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces) 
       self.set_game
       loop do
         self.display_game
@@ -45,7 +46,7 @@ class Game
       self.set_en_passant_offender
       self.take_piece
       self.execute_move
-      #determine winner/draw here. If player ends in checkmate state here they lose.
+      # look for checkmate before beginning a new round
       self.next_turn
     end
   end
