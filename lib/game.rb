@@ -45,7 +45,7 @@ class Game
       self.set_en_passant_offender
       self.take_piece
       self.execute_move
-      #determine winner/draw here
+      #determine winner/draw here. If player ends in checkmate state here they lose.
       self.next_turn
     end
   end
