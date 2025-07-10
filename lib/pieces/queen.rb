@@ -17,13 +17,10 @@ class Queen < Piece
       kings = all_pieces.select{|piece| piece.is_a?(King)}
       if kings.all?{|king| king.yx != target}
         # vertical move
-        return true if target[1] == self.yx[1] && 
-        self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) == false 
-        # horizontal move
-        return true if target[0] == self.yx[0] && 
+        return true if self.get_perpendicular_paths.any?{|path| path.include?(target)} && 
         self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) == false 
         # diagonal move
-        return true if target[0] != self.yx[0] && target[1] != self.yx[1] && 
+        return true if self.get_diagonal_paths.any?{|path| path.include?(target)} && 
         self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) == false 
       end
     end

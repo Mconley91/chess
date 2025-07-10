@@ -15,14 +15,7 @@ class Knight < Piece
     all_pieces = clears + solids
     kings = all_pieces.select{|piece| piece.is_a?(King)}
     if kings.all?{|king| king.yx != target}
-      return true if target == [self.yx[0] + 1, self.yx[1] + 2]
-      return true if target == [self.yx[0] + 2, self.yx[1] + 1]
-      return true if target == [self.yx[0] + 2, self.yx[1] - 1]
-      return true if target == [self.yx[0] + 1, self.yx[1] - 2]
-      return true if target == [self.yx[0] - 1, self.yx[1] - 2]
-      return true if target == [self.yx[0] - 2, self.yx[1] - 1]
-      return true if target == [self.yx[0] - 2, self.yx[1] + 1]
-      return true if target == [self.yx[0] - 1, self.yx[1] + 2]
+      return true if self.get_knight_positions.include?(target)
     end
   end
 end
