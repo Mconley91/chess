@@ -16,7 +16,7 @@ class King < Piece
       all_pieces = clears + solids
       single_square_move = self.plot_path(self.yx, target).length == 2
       kings = all_pieces.select{|piece| piece.is_a?(King)}
-      if kings.all?{|king| king.yx != target}
+      if kings.all?{|king| king.yx != target} && !self.moving_into_check?(target, selected_color, clears, solids)
         # vertical move
         return true if target[1] == self.yx[1] && 
         self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) == false && single_square_move
@@ -48,6 +48,18 @@ class King < Piece
     ].flatten
     puts "PLAYER: #{color}, CHECK FROM: #{all_checks}" # helpful troubleshooting readout of pieces causing check
     all_checks
+  end
+
+  def moving_into_check?(target, color, clears, solids)
+    dummy_king = King.new(color, target)
+    dummy_king.in_play = false
+    self.in_play = false # makes the king 'invisible' for calculating checks
+    doomed_move = dummy_king.is_in_check?(color, clears, solids)
+    self.in_play = true
+    if doomed_move
+      puts "Invalid play! Moving into check."
+      true
+    end
   end
 
   def get_diagonal_paths
