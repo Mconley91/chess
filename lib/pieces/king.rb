@@ -50,7 +50,7 @@ class King < Piece
     all_checks
   end
 
-  def moving_into_check?(target, color, clears, solids)
+  def moving_into_check?(target, color, clears, solids) # might use similar logic to solve checks
     dummy_king = King.new(color, target)
     dummy_king.in_play = false
     self.in_play = false # makes the king 'invisible' for calculating checks
