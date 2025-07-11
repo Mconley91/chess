@@ -30,7 +30,6 @@ class Game
     loop do
       @selected_piece = nil
       @selected_square = nil
-      # look for check to determine if player must escape check this turn. No other play can be made until Check is ended.
       @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
       puts "#{@player_turn} is in check!" if @in_check
       self.set_game

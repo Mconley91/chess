@@ -50,12 +50,20 @@ class King < Piece
     all_checks
   end
 
-  def moving_into_check?(target, color, clears, solids) # might use similar logic to solve checks
+  def moving_into_check?(target, color, clears, solids)
+    all_pieces = clears + solids
+    target_piece = all_pieces.find{|piece| piece.yx == target && piece.color != color && piece.in_play == true}
+    if target_piece
+      target_piece.in_play = false
+    end
     dummy_king = King.new(color, target)
     dummy_king.in_play = false
     self.in_play = false # makes the king 'invisible' for calculating checks
     doomed_move = dummy_king.is_in_check?(color, clears, solids)
     self.in_play = true
+    if target_piece
+      target_piece.in_play = true
+    end
     if doomed_move
       true
     end
