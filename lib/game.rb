@@ -41,8 +41,8 @@ class Game
       loop do
         self.display_game
         self.select_square(self.get_input)
-        break if @selected_piece.legal_move?(*make_arguments) && 
-        self.check_ending_move?(@selected_piece, @selected_square, @player_turn)
+        break if @selected_piece.legal_move?(*legal_move_arguments) && 
+        self.escapes_check?(@selected_piece, @selected_square, @player_turn)
         @selected_square = nil # prevents unexpected behavior if friendly piece is selected instead of a square
       end
       self.set_en_passant_offender
@@ -102,13 +102,13 @@ class Game
     end
   end
 
-  def make_arguments
+  def legal_move_arguments
     args = [@selected_square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces]
     args << @en_passant_offender if @selected_piece.is_a?(Pawn)
     args
   end
 
-  def check_ending_move?(piece, square, player_turn)
+  def escapes_check?(piece, square, player_turn)
     color = player_turn.downcase
     all_pieces = @game_board.clear_pieces + @game_board.solid_pieces
     target_piece = all_pieces.find{|target_piece| target_piece.yx == square && target_piece.in_play}

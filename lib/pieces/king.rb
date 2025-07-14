@@ -69,7 +69,7 @@ class King < Piece
     end
   end
 
-  def checkmate?(player, clears, solids)
+  def king_cant_move?(player, clears, solids)
     if self.is_in_check?(player, clears, solids)
       # check if squares around king are 1.) moving into check, 2.) occupied by friendly pieces, 3.) moving out of bounds
       color = player.downcase
