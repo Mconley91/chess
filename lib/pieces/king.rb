@@ -69,34 +69,34 @@ class King < Piece
     end
   end
 
-  def king_cant_move?(player, clears, solids)
-    if self.is_in_check?(player, clears, solids)
-      # check if squares around king are 1.) moving into check, 2.) occupied by friendly pieces, 3.) moving out of bounds
-      color = player.downcase
-      possible_moves = [
-        [self.yx[0] + 1, self.yx[1] + 1], # bottom right
-        [self.yx[0], self.yx[1] + 1],     # right
-        [self.yx[0] - 1, self.yx[1] + 1], # top right
-        [self.yx[0] - 1, self.yx[1]],     # top
-        [self.yx[0] - 1, self.yx[1] - 1], # top left
-        [self.yx[0], self.yx[1] - 1],     # left
-        [self.yx[0] + 1, self.yx[1] - 1], # bottom left
-        [self.yx[0] + 1, self.yx[1]]      # bottom
-      ]
-      not_out_of_bounds = possible_moves.select{|move| move[0].between?(0,7) && move[1].between?(0,7)}
-      not_occupied_by_friends = color == 'clear' ? 
-      not_out_of_bounds.select{|move| clears.find{|piece| move == piece.yx} ? false : true} :
-      not_out_of_bounds.select{|move| solids.find{|piece| move == piece.yx} ? false : true}
-      not_moving_into_check = not_occupied_by_friends.select{|move| !moving_into_check?(move, color, clears, solids)}
-      # p not_moving_into_check # troubleshooting code, remove later
-      if not_moving_into_check.length > 0
-        return false
-      else
-        return true
-      end
-    end
-    false
-  end
+  # def king_cant_move?(player, clears, solids)
+  #   if self.is_in_check?(player, clears, solids)
+  #     # check if squares around king are 1.) moving into check, 2.) occupied by friendly pieces, 3.) moving out of bounds
+  #     color = player.downcase
+  #     possible_moves = [
+  #       [self.yx[0] + 1, self.yx[1] + 1], # bottom right
+  #       [self.yx[0], self.yx[1] + 1],     # right
+  #       [self.yx[0] - 1, self.yx[1] + 1], # top right
+  #       [self.yx[0] - 1, self.yx[1]],     # top
+  #       [self.yx[0] - 1, self.yx[1] - 1], # top left
+  #       [self.yx[0], self.yx[1] - 1],     # left
+  #       [self.yx[0] + 1, self.yx[1] - 1], # bottom left
+  #       [self.yx[0] + 1, self.yx[1]]      # bottom
+  #     ]
+  #     not_out_of_bounds = possible_moves.select{|move| move[0].between?(0,7) && move[1].between?(0,7)}
+  #     not_occupied_by_friends = color == 'clear' ? 
+  #     not_out_of_bounds.select{|move| clears.find{|piece| move == piece.yx} ? false : true} :
+  #     not_out_of_bounds.select{|move| solids.find{|piece| move == piece.yx} ? false : true}
+  #     not_moving_into_check = not_occupied_by_friends.select{|move| !moving_into_check?(move, color, clears, solids)}
+  #     # p not_moving_into_check # troubleshooting code, remove later
+  #     if not_moving_into_check.length > 0
+  #       return false
+  #     else
+  #       return true
+  #     end
+  #   end
+  #   false
+  # end
 
   def perpendicular_checks(paths, pieces, color)
     checking_pieces = []

@@ -30,8 +30,6 @@ class Game
     loop do
       @selected_piece = nil
       @selected_square = nil
-      @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
-      puts "#{@player_turn} is in check!" if @in_check
       self.set_game
       loop do
         self.display_game
@@ -48,18 +46,21 @@ class Game
       self.set_en_passant_offender
       self.take_piece
       self.execute_move
-      puts "#{checkmate?}"
-      if self.checkmate?
-        puts "Checkmate! #{@player_turn} wins!"
-      end
+      self.next_player
+      @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
+      puts "#{@player_turn} is in check!" if @in_check
+      # check for checkmate here
       self.next_turn
     end
+  end
+
+  def next_player
+    @player_turn = @player_turn == 'Clear' ? 'Solid' : 'Clear'
   end
 
   def next_turn
     self.turn += 1
     if self.turn.even? then self.round += 1 end
-    @player_turn = @player_turn == 'Clear' ? 'Solid' : 'Clear'
   end
 
   def set_select_piece(yx)
