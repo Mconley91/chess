@@ -51,12 +51,22 @@ module Checkmate # Refactor, separate #in_check? from #in_checkmate?
   end
 
   def checkmate?
-    # if clear_king.checkmate?(player, clear_pieces, solid_pieces)
-    #   puts "#{player} is in checkmate!"
-    # end
-    # if solid_king.checkmate?(player, clear_pieces, solid_pieces)
-    #   puts "#{player} is in checkmate!"
-    # end
+    if @player_turn == 'Clear'
+      @game_board.clear_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i| 
+      if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) && self.check_escaping_play(piece, [row_i, square_i], @player_turn)
+         p "#{piece}, #{[row_i, square_i]}, #{@player_turn}" # troubleshooting code
+        return false
+      end
+      }}}
+    else
+      @game_board.solid_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i| 
+      if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) && self.check_escaping_play(piece, [row_i, square_i], @player_turn)
+        p "#{piece}, #{[row_i, square_i]}, #{@player_turn}" # troubleshooting code
+        return false
+      end
+      }}}
+    end
+    true
   end
 
 end

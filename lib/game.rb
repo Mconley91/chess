@@ -41,14 +41,17 @@ class Game
       loop do
         self.display_game
         self.select_square(self.get_input)
-        break if @selected_piece.legal_move?(*legal_move_arguments) && 
-        self.escapes_check?(@selected_piece, @selected_square, @player_turn)
+        break if @selected_piece.legal_move?(*legal_move_arguments(@selected_piece, @selected_square)) && 
+        self.check_escaping_play(@selected_piece, @selected_square, @player_turn)
         @selected_square = nil # prevents unexpected behavior if friendly piece is selected instead of a square
       end
       self.set_en_passant_offender
       self.take_piece
       self.execute_move
-      # look for checkmate before beginning a new round, end game if checkmate is true
+      puts "#{checkmate?}"
+      if self.checkmate?
+        puts "Checkmate! #{@player_turn} wins!"
+      end
       self.next_turn
     end
   end
@@ -102,13 +105,13 @@ class Game
     end
   end
 
-  def legal_move_arguments
-    args = [@selected_square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces]
-    args << @en_passant_offender if @selected_piece.is_a?(Pawn)
+  def legal_move_arguments(piece, square)
+    args = [square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces]
+    args << @en_passant_offender if piece.is_a?(Pawn)
     args
   end
 
-  def escapes_check?(piece, square, player_turn)
+  def check_escaping_play(piece, square, player_turn)
     color = player_turn.downcase
     all_pieces = @game_board.clear_pieces + @game_board.solid_pieces
     target_piece = all_pieces.find{|target_piece| target_piece.yx == square && target_piece.in_play}
