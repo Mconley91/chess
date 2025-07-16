@@ -50,7 +50,7 @@ module Checkmate # Refactor, separate #in_check? from #in_checkmate?
     false
   end
 
-  def checkmate?
+  def checkmate? # currently disabled while check functionality is bug-squashed
     if @in_check == true
       if @player_turn == 'Clear'
         @game_board.clear_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i|

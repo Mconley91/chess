@@ -101,4 +101,20 @@ class Piece
     valid_positions
   end
 
+  def get_king_positions
+    valid_positions = []
+    all_positions = [
+        [self.yx[0] + 1, self.yx[1] + 1], 
+        [self.yx[0], self.yx[1] + 1],     
+        [self.yx[0] - 1, self.yx[1] + 1], 
+        [self.yx[0] - 1, self.yx[1]],     
+        [self.yx[0] - 1, self.yx[1] - 1], 
+        [self.yx[0], self.yx[1] - 1],     
+        [self.yx[0] + 1, self.yx[1] - 1], 
+        [self.yx[0] + 1, self.yx[1]]
+      ]
+    all_positions.each{|position| valid_positions << position if position[0].between?(0,7) && position[1].between?(0,7)}
+    valid_positions
+  end
+
 end

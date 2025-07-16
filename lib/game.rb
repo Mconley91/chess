@@ -130,7 +130,7 @@ class Game
     end
 
     if dummy_piece.is_a?(King)
-      in_check = dummy_piece.find_checks(color, all_pieces).length > 0
+      in_check = dummy_piece.find_checks(color, all_pieces).length > 0 # suspect for current bug
     else
       player_king = all_pieces.find{|piece| piece.is_a?(King) && piece.color == color}
       in_check = player_king.find_checks(color, all_pieces).length > 0
