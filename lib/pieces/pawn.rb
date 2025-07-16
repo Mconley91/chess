@@ -14,6 +14,7 @@ class Pawn < Piece
   def legal_move?(target, selected_color, clears, solids, en_passant_offender)
     all_pieces = clears + solids
     kings = all_pieces.select{|piece| piece.is_a?(King)}
+
     if kings.all?{|king| king.yx != target}
       if selected_color == 'Clear'
         enemy_present = solids.find{|piece| piece.yx == target && piece.in_play}
@@ -35,6 +36,7 @@ class Pawn < Piece
         end
       end
     end
+    
     false
   end
   

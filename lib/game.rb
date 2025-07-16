@@ -116,30 +116,33 @@ class Game
     color = player_turn.downcase
     all_pieces = @game_board.clear_pieces + @game_board.solid_pieces
     target_piece = all_pieces.find{|target_piece| target_piece.yx == square && target_piece.in_play}
+
     if piece.is_a?(King)
       dummy_piece = King.new(color, square)
-      dummy_piece.yx = square
     else
       dummy_piece = Pawn.new(color, square)
-      dummy_piece.yx = square
     end
     all_pieces << dummy_piece
+
     piece.in_play = false
     if target_piece
       target_piece.in_play = false
     end
+
     if dummy_piece.is_a?(King)
       in_check = dummy_piece.find_checks(color, all_pieces).length > 0
     else
       player_king = all_pieces.find{|piece| piece.is_a?(King) && piece.color == color}
       in_check = player_king.find_checks(color, all_pieces).length > 0
     end
+
     dummy_piece.in_play = false
     piece.in_play = true
     if target_piece
       target_piece.in_play = true
     end
-    return !in_check ? true : false
+
+    !in_check ? true : false
   end
 
 end
