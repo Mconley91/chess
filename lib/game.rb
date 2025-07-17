@@ -28,7 +28,6 @@ class Game
 
   def handle_play
     loop do
-      p @en_passant_offender
       @selected_piece = nil
       @selected_square = nil
       self.set_game

@@ -59,9 +59,8 @@ module Checkmate
           self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
           piece.in_play
 
-          # troubleshooting code: 
-          p "Piece That Can End Check: #{piece.icon} at #{piece.yx}"
-          p "Legal Check Escaping Move: #{[row_i, square_i]}"
+          # p "Piece That Can End Check: #{piece.icon} at #{piece.yx}"
+          # p "Legal Check Escaping Move: #{[row_i, square_i]}"
 
           return false
         end
@@ -72,9 +71,8 @@ module Checkmate
           self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
           piece.in_play
 
-          # troubleshooting code: 
-          p "Piece That Can End Check: #{piece.icon} at #{piece.yx}"
-          p "Legal Check Escaping Move: #{[row_i, square_i]}"
+          # p "Piece That Can End Check: #{piece.icon} at #{piece.yx}"
+          # p "Legal Check Escaping Move: #{[row_i, square_i]}"
 
           return false
         end
