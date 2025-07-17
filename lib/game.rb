@@ -28,6 +28,7 @@ class Game
 
   def handle_play
     loop do
+      p @en_passant_offender
       @selected_piece = nil
       @selected_square = nil
       self.set_game
@@ -43,13 +44,20 @@ class Game
         self.check_escaping_play(@selected_piece, @selected_square, @player_turn)
         @selected_square = nil # prevents unexpected behavior if friendly piece is selected instead of a square
       end
+      if @en_passant_offender
+        self.detect_en_passant_play 
+      else
+        self.take_piece
+      end
       self.set_en_passant_offender
-      self.take_piece
       self.execute_move
       self.next_player
       @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
       puts "#{@player_turn} is in check!" if @in_check
-      puts "Checkmate! #{@player_turn == 'Clear' ? 'Solid' : 'Clear'} wins!" if checkmate?
+      if checkmate?
+        puts "Checkmate! #{@player_turn == 'Clear' ? 'Solid' : 'Clear'} wins!" 
+        return # consider replay or other post-game options here
+      end
       self.next_turn
     end
   end
@@ -99,10 +107,8 @@ class Game
   def take_piece
     if @player_turn == 'Clear'
       @game_board.solid_pieces.find{|piece| piece.in_play = false if piece.yx == @selected_square}
-      self.detect_en_passant_play 
     else
       @game_board.clear_pieces.find{|piece| piece.in_play = false if piece.yx == @selected_square}
-      self.detect_en_passant_play 
     end
   end
 

@@ -3,14 +3,15 @@
 module En_Passant 
   def set_en_passant_offender
     if @selected_piece.class == Pawn
-      if @player_turn == 'Clear' 
-        @en_passant_offender = @selected_piece if @selected_piece.yx[0] - @selected_square[0] == 2
+      if @player_turn == 'Clear' && @selected_piece.yx[0] - @selected_square[0] == 2
+        @en_passant_offender = @selected_piece
         return
-      else
-        @en_passant_offender = @selected_piece if @selected_square[0] - @selected_piece.yx[0] == 2
+      elsif @player_turn == 'Solid' && @selected_square[0] - @selected_piece.yx[0] == 2
+        @en_passant_offender = @selected_piece
         return
       end
     end
+    @en_passant_offender = nil
   end
 
   def detect_en_passant_play
@@ -33,7 +34,7 @@ module En_Passant
 
 end
 
-module Checkmate # Refactor, separate #in_check? from #in_checkmate?
+module Checkmate
 
   def in_check?(player, clear_pieces, solid_pieces)
     if player == 'Clear'
@@ -58,18 +59,20 @@ module Checkmate # Refactor, separate #in_check? from #in_checkmate?
           self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
           piece.in_play
 
+          # troubleshooting code: 
           p "Piece That Can End Check: #{piece.icon} at #{piece.yx}"
           p "Legal Check Escaping Move: #{[row_i, square_i]}"
 
           return false
         end
       }}}
-      else
+      else # if 'Solid'
         @game_board.solid_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i| 
         if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) &&
           self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
           piece.in_play
-          
+
+          # troubleshooting code: 
           p "Piece That Can End Check: #{piece.icon} at #{piece.yx}"
           p "Legal Check Escaping Move: #{[row_i, square_i]}"
 
