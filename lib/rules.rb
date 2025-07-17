@@ -50,40 +50,40 @@ module Checkmate # Refactor, separate #in_check? from #in_checkmate?
     false
   end
 
-  # def checkmate? # currently disabled while check functionality is bug-squashed
-  #   if @in_check == true
-  #     if @player_turn == 'Clear'
-  #       @game_board.clear_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i|
-  #       if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) &&
-  #         self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
-  #         piece == @selected_piece
+  def checkmate? # working here
+    if @in_check == true
+      if @player_turn == 'Clear'
+        @game_board.clear_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i|
+        if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) &&
+          self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
+          piece.in_play
 
-  #         p "Player: #{@player_turn}"
-  #         p "Piece: #{piece}"
-  #         p "Piece Current Position: #{piece.yx}"
-  #         p "Legal Check Escaping Move: #{[row_i, square_i]}"
+          p "Player: #{@player_turn}"
+          p "Piece: #{piece}"
+          p "Piece Current Position: #{piece.yx}"
+          p "Legal Check Escaping Move: #{[row_i, square_i]}"
 
-  #         return false
-  #       end
-  #     }}}
-  #     else
-  #       @game_board.solid_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i| 
-  #       if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) &&
-  #         self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
-  #         piece == @selected_piece
+          return false
+        end
+      }}}
+      else
+        @game_board.solid_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i| 
+        if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) &&
+          self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
+          piece.in_play
           
-  #         p "Player: #{@player_turn}"
-  #         p "Piece: #{piece}"
-  #         p "Piece Current Position: #{piece.yx}"
-  #         p "Check Escaping Move: #{[row_i, square_i]}"
+          p "Player: #{@player_turn}"
+          p "Piece: #{piece}"
+          p "Piece Current Position: #{piece.yx}"
+          p "Check Escaping Move: #{[row_i, square_i]}"
 
-  #         return false
-  #       end
-  #       }}}
-  #     end
-  #   true
-  #   end
-  # end
+          return false
+        end
+        }}}
+      end
+    true
+    end
+  end
 
 end
 

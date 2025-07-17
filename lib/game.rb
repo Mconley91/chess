@@ -49,7 +49,7 @@ class Game
       self.next_player
       @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
       puts "#{@player_turn} is in check!" if @in_check
-      # check for checkmate here
+      puts "Checkmate! #{@player_turn == 'Clear' ? 'Solid' : 'Clear'} wins!" if checkmate?
       self.next_turn
     end
   end
