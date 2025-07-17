@@ -113,6 +113,7 @@ class Game
   end
 
   def check_escaping_play(piece, square, player_turn)
+    return false if !piece.in_play
     color = player_turn.downcase
     all_pieces = @game_board.clear_pieces + @game_board.solid_pieces
     target_piece = all_pieces.find{|target_piece| target_piece.yx == square && target_piece.in_play}
