@@ -84,4 +84,39 @@ module Checkmate
 
 end
 
-  
+module Pawn_Promotion
+  def promote_pawn
+    color = @player_turn.downcase
+    if @selected_piece.is_a?(Pawn) && @selected_square[0] == 0
+      pick_piece(color)
+      @selected_piece.in_play = false
+    end
+  end
+
+  def pick_piece(color)
+    if color == 'clear'
+      pieces = @game_board.clear_pieces
+    else
+      pieces = @game_board.solid_pieces
+    end
+    loop do
+      puts "Promote Your Pawn! Enter Rook, Knight, Bishop or Queen"
+      input = gets.chomp.downcase
+      case input
+      when 'rook'
+        pieces << Rook.new(color, @selected_square)
+        return
+      when 'knight'
+        pieces << Knight.new(color, @selected_square)
+        return
+      when 'bishop'
+        pieces << Bishop.new(color, @selected_square)
+        return
+      when 'queen'
+        pieces << Queen.new(color, @selected_square)
+        return
+      end
+    end
+  end
+
+end

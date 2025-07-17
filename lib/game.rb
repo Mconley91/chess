@@ -21,6 +21,7 @@ class Game
   include Input
   include En_Passant
   include Checkmate
+  include Pawn_Promotion
 
   def set_game
     @game_board.render_pieces
@@ -50,6 +51,7 @@ class Game
       end
       self.set_en_passant_offender
       self.execute_move
+      self.promote_pawn
       self.next_player
       @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
       puts "#{@player_turn} is in check!" if @in_check
