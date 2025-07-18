@@ -22,6 +22,7 @@ class Game
   include En_Passant
   include Checkmate
   include Pawn_Promotion
+  include Draw
 
   def set_game
     @game_board.render_pieces
@@ -57,6 +58,10 @@ class Game
       puts "#{@player_turn} is in check!" if @in_check
       if checkmate?
         puts "Checkmate! #{@player_turn == 'Clear' ? 'Solid' : 'Clear'} wins!" 
+        return # consider replay or other post-game options here
+      end
+      if stalemate?
+        puts "Stalemate!" 
         return # consider replay or other post-game options here
       end
       self.next_turn
@@ -119,7 +124,7 @@ class Game
     args
   end
 
-  def check_escaping_play(piece, square, player_turn)
+  def check_escaping_play(piece, square, player_turn) # also prevents moving into check
     return false if !piece.in_play
     color = player_turn.downcase
     all_pieces = @game_board.clear_pieces + @game_board.solid_pieces
@@ -138,7 +143,7 @@ class Game
     end
 
     if dummy_piece.is_a?(King)
-      in_check = dummy_piece.find_checks(color, all_pieces).length > 0 # suspect for current bug
+      in_check = dummy_piece.find_checks(color, all_pieces).length > 0 
     else
       player_king = all_pieces.find{|piece| piece.is_a?(King) && piece.color == color}
       in_check = player_king.find_checks(color, all_pieces).length > 0

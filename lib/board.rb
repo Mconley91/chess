@@ -28,19 +28,17 @@ class Board
       arr << Bishop.new(color,[7,5])
       arr << Queen.new(color,[7,3])
       arr << King.new(color,[7,4])
-      arr << Pawn.new(color,[1,0]) # test pawn for brevity, remove later
-      arr << Pawn.new(color,[1,7]) # test pawn for brevity, remove later
       arr
     else # solid pieces
       arr = []
-      # @squares[1].each_with_index{|square,index| arr << Pawn.new(color,[1,index])}
-      # arr << Rook.new(color,[0,0])
-      # arr << Rook.new(color,[0,7])
-      # arr << Knight.new(color,[0,1])
-      # arr << Knight.new(color,[0,6])
-      # arr << Bishop.new(color,[0,2])
-      # arr << Bishop.new(color,[0,5])
-      # arr << Queen.new(color,[0,3]) # commented for testing, un-comment later
+      @squares[1].each_with_index{|square,index| arr << Pawn.new(color,[1,index])}
+      arr << Rook.new(color,[0,0])
+      arr << Rook.new(color,[0,7])
+      arr << Knight.new(color,[0,1])
+      arr << Knight.new(color,[0,6])
+      arr << Bishop.new(color,[0,2])
+      arr << Bishop.new(color,[0,5])
+      arr << Queen.new(color,[0,3])
       arr << King.new(color,[0,4])
       arr
     end   

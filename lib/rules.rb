@@ -1,4 +1,4 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 
 module En_Passant 
   def set_en_passant_offender
@@ -83,6 +83,34 @@ module Checkmate
   end
 
 end
+
+module Draw
+
+  def stalemate?
+    if @in_check == false
+      if @player_turn == 'Clear'
+        @game_board.clear_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i|
+        if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) &&
+          self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
+          piece.in_play
+          return false
+        end
+      }}}
+      else # if 'Solid'
+        @game_board.solid_pieces.each{|piece| @game_board.squares.each_with_index{|row, row_i| row.each_with_index {|square, square_i| 
+        if piece.legal_move?(*legal_move_arguments(piece, [row_i, square_i])) &&
+          self.check_escaping_play(piece, [row_i, square_i], @player_turn) &&
+          piece.in_play
+          return false
+        end
+        }}}
+      end
+    true
+    end
+  end
+
+end
+
 
 module Pawn_Promotion
   def promote_pawn
