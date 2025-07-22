@@ -30,11 +30,13 @@ class King < Piece
         if can_castle
           left_rook = all_pieces.find{|piece| piece.is_a?(Rook) && piece.yx[1] == 0 && piece.color == self.color}
           right_rook = all_pieces.find{|piece| piece.is_a?(Rook) && piece.yx[1] == 7 && piece.color == self.color}
-          if target[1] == self.yx[1] - 2 && !left_rook.has_moved && !self.piece_in_path?(self.plot_path(self.yx, target), all_pieces)
+          if target[1] == self.yx[1] - 2 && !left_rook.has_moved && !self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) && 
+            !self.moving_into_check?([self.yx[0], self.yx[1] - 1], selected_color, all_pieces)
             left_rook.yx = [self.yx[0], self.yx[1] - 1]
             left_rook.has_moved = true
             return true
-          elsif target[1] == self.yx[1] + 2 && !right_rook.has_moved && !self.piece_in_path?(self.plot_path(self.yx, target), all_pieces)
+          elsif target[1] == self.yx[1] + 2 && !right_rook.has_moved && !self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) && 
+            !self.moving_into_check?([self.yx[0], self.yx[1] + 1], selected_color, all_pieces)
             right_rook.yx = [self.yx[0], self.yx[1] + 1]
             right_rook.has_moved = true
             return true
