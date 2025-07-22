@@ -34,7 +34,6 @@ class Game
       @selected_piece = nil
       @selected_square = nil
       self.set_game
-      self.can_castle?
       loop do
         self.display_game
         self.set_select_piece(self.get_input)
@@ -128,6 +127,7 @@ class Game
   def legal_move_arguments(piece, square)
     args = [square, @player_turn, @game_board.clear_pieces, @game_board.solid_pieces]
     args << @en_passant_offender if piece.is_a?(Pawn)
+    args << self.can_castle? if piece.is_a?(King)
     args
   end
 

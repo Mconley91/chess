@@ -11,12 +11,12 @@ class King < Piece
     super
   end
 
-  def legal_move?(target, selected_color, clears, solids) 
+  def legal_move?(target, selected_color, clears, solids, can_castle) 
     if target
       all_pieces = clears + solids
       single_square_move = self.plot_path(self.yx, target).length == 2
       kings = all_pieces.select{|piece| piece.is_a?(King)}
-      if kings.all?{|king| king.yx != target} && !self.moving_into_check?(target, selected_color, clears, solids)
+      if kings.all?{|king| king.yx != target} && !self.moving_into_check?(target, selected_color, all_pieces)
         # vertical move
         return true if target[1] == self.yx[1] && 
         self.piece_in_path?(self.plot_path(self.yx, target), all_pieces) == false && single_square_move
@@ -30,8 +30,7 @@ class King < Piece
     end
   end
 
-  def moving_into_check?(target, color, clears, solids) # suspect in current bug
-  all_pieces = clears + solids
+  def moving_into_check?(target, color, all_pieces)
   target_piece = all_pieces.find{|piece| piece.yx == target && piece.color != color && piece.in_play == true}
   if target_piece
     target_piece.in_play = false
@@ -39,7 +38,7 @@ class King < Piece
   dummy_king = King.new(color, target)
   dummy_king.in_play = false
   self.in_play = false # makes the king 'invisible' for calculating checks
-  doomed_move = dummy_king.is_in_check?(color, clears, solids)
+  doomed_move = dummy_king.is_in_check?(color, all_pieces)
   self.in_play = true
   if target_piece
     target_piece.in_play = true
@@ -49,9 +48,8 @@ class King < Piece
   end
   end
 
-  def is_in_check?(player, clears, solids)
+  def is_in_check?(player, all_pieces)
     color = player.downcase
-    all_pieces = clears + solids
     return true if self.find_checks(color, all_pieces).length > 0
   end
 
@@ -173,34 +171,5 @@ class King < Piece
   def enemy_pawns(piece, color)
     piece.is_a?(Pawn) && piece.color != color
   end
-
-  # def king_cant_move?(player, clears, solids)
-  #   if self.is_in_check?(player, clears, solids)
-  #     # check if squares around king are 1.) moving into check, 2.) occupied by friendly pieces, 3.) moving out of bounds
-  #     color = player.downcase
-  #     possible_moves = [
-  #       [self.yx[0] + 1, self.yx[1] + 1], # bottom right
-  #       [self.yx[0], self.yx[1] + 1],     # right
-  #       [self.yx[0] - 1, self.yx[1] + 1], # top right
-  #       [self.yx[0] - 1, self.yx[1]],     # top
-  #       [self.yx[0] - 1, self.yx[1] - 1], # top left
-  #       [self.yx[0], self.yx[1] - 1],     # left
-  #       [self.yx[0] + 1, self.yx[1] - 1], # bottom left
-  #       [self.yx[0] + 1, self.yx[1]]      # bottom
-  #     ]
-  #     not_out_of_bounds = possible_moves.select{|move| move[0].between?(0,7) && move[1].between?(0,7)}
-  #     not_occupied_by_friends = color == 'clear' ? 
-  #     not_out_of_bounds.select{|move| clears.find{|piece| move == piece.yx} ? false : true} :
-  #     not_out_of_bounds.select{|move| solids.find{|piece| move == piece.yx} ? false : true}
-  #     not_moving_into_check = not_occupied_by_friends.select{|move| !moving_into_check?(move, color, clears, solids)}
-  #     # p not_moving_into_check # troubleshooting code, remove later
-  #     if not_moving_into_check.length > 0
-  #       return false
-  #     else
-  #       return true
-  #     end
-  #   end
-  #   false
-  # end
 
 end
