@@ -52,17 +52,18 @@ class Game
       end
       self.set_en_passant_offender
       self.execute_move
+      self.updated_moved_status
       self.promote_pawn
       self.next_player
       @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
       puts "#{@player_turn} is in check!" if @in_check
       if checkmate?
         puts "Checkmate! #{@player_turn == 'Clear' ? 'Solid' : 'Clear'} wins!" 
-        return # consider replay or other post-game options here
+        return 
       end
       if stalemate?
         puts "Stalemate!" 
-        return # consider replay or other post-game options here
+        return 
       end
       self.next_turn
     end
@@ -108,6 +109,10 @@ class Game
 
   def execute_move
     @selected_piece.yx = @selected_square
+  end
+
+  def updated_moved_status
+    @selected_piece.has_moved = true
   end
 
   def take_piece

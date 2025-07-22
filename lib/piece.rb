@@ -1,9 +1,10 @@
 class Piece 
-  attr_accessor :yx, :in_play
+  attr_accessor :yx, :in_play, :has_moved
   
   def initialize(color, yx, in_play = true)
     @yx = yx
     @in_play = true
+    @has_moved = false
   end
 
   def plot_path(piece, target)

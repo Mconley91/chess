@@ -148,3 +148,7 @@ module Pawn_Promotion
   end
 
 end
+
+module Castling
+  # unsure if i need this
+end
