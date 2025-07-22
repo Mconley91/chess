@@ -150,5 +150,23 @@ module Pawn_Promotion
 end
 
 module Castling
-  # unsure if i need this
+  def can_castle? # checks if not in check & at least one rook and the king have not moved yet
+    if @in_check == false
+      if @player_turn == 'Clear'
+      pieces = @game_board.clear_pieces
+      else
+        pieces = @game_board.solid_pieces
+      end
+      king = pieces.find{|piece| piece.is_a?(King)}
+      rooks = []
+      pieces.each{|piece| rooks << piece if piece.is_a?(Rook)}
+      if king.has_moved == false && rooks.any?{|rook| rook.has_moved == false}
+        return true
+      else
+        return false
+      end
+    end
+    false
+  end
+
 end
