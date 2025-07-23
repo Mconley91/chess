@@ -30,14 +30,16 @@ class Game
   end
 
   def handle_two_player_game
+    self.set_game
+    self.display_game
     loop do
       @selected_piece = nil
       @selected_square = nil
       self.set_game
       loop do
-        self.display_game
         self.set_select_piece(self.get_input)
         break if @selected_piece
+        self.display_game
       end
       loop do
         self.display_game
@@ -55,23 +57,12 @@ class Game
       self.execute_move
       self.update_moved_status
       self.promote_pawn
-      self.set_game
-      self.display_game # displaying results of successful move before next turn
       self.next_player
+      self.set_game
+      self.display_game
       @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
-      puts "#{@player_turn} is in check!" if @in_check
-      if checkmate?
-        puts "Checkmate! #{@player_turn == 'Clear' ? 'Solid' : 'Clear'} wins!" 
-        return 
-      end
-      if stalemate?
-        puts "Stalemate!" 
-        return 
-      end
-      if insufficient_material?
-          puts "Draw! Insufficient Material"
-          return
-      end
+      self.display_player_status
+      return if checkmate? || stalemate? || insufficient_material?
       self.next_turn
     end
   end
