@@ -2,20 +2,25 @@
 
 require './lib/game.rb'
 
-loop do
-  game = Game.new
-  game.display_menu
-  input = gets.chomp.downcase
+def start_chess_app
+  loop do
+    game = Game.new
+    game.display_menu
+    input = gets.chomp.downcase
 
-  case input
-  when 'play'
-    game.handle_two_player_game
-  else
-    puts "invalid entry"
+    case input
+    when 'play'
+      game.handle_two_player_game
+    when 'exit'
+      return
+    else
+      puts "Invalid entry. Try again."
+    end
+
+    if input == 'play'
+      game.replay
+    end
   end
-
-  if input == 'play'
-    game.replay
-  end
-
 end
+
+start_chess_app

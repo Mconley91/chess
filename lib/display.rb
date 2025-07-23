@@ -17,6 +17,7 @@ module Display
     puts "Welcome to my Chess project!"
     puts "Use the following commands:"
     puts "Play: to start a new game against yourself or a friend"
+    puts "Exit: to close the app"
     puts "*------------------------------------------------------*"
   end
 
