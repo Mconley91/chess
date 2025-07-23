@@ -110,6 +110,12 @@ module Draw
     end
   end
 
+  def insufficient_material? # returns true when each player is down to a lone king
+    solids = @game_board.solid_pieces.select{|piece| piece.in_play}
+    clears = @game_board.clear_pieces.select{|piece| piece.in_play}
+    return true if solids.length == 1 && solids[0].is_a?(King) && clears.length == 1 && solids[0].is_a?(King)
+  end
+
 end
 
 

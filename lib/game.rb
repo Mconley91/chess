@@ -34,6 +34,11 @@ class Game
       @selected_piece = nil
       @selected_square = nil
       self.set_game
+      self.display_game
+      if insufficient_material?
+        puts "Draw! Insufficient Material"
+        return
+      end
       loop do
         self.display_game
         self.set_select_piece(self.get_input)
