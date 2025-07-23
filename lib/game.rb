@@ -29,17 +29,13 @@ class Game
     @game_board.render_pieces
   end
 
-  def handle_player_turn
+  def handle_two_player_game
     loop do
       @selected_piece = nil
       @selected_square = nil
       self.set_game
       loop do
         self.display_game
-        if insufficient_material?
-          puts "Draw! Insufficient Material"
-          return
-        end
         self.set_select_piece(self.get_input)
         break if @selected_piece
       end
@@ -59,6 +55,8 @@ class Game
       self.execute_move
       self.update_moved_status
       self.promote_pawn
+      self.set_game
+      self.display_game # displaying results of successful move before next turn
       self.next_player
       @in_check = self.in_check?(@player_turn, @game_board.clear_pieces, @game_board.solid_pieces)
       puts "#{@player_turn} is in check!" if @in_check
@@ -69,6 +67,10 @@ class Game
       if stalemate?
         puts "Stalemate!" 
         return 
+      end
+      if insufficient_material?
+          puts "Draw! Insufficient Material"
+          return
       end
       self.next_turn
     end
@@ -167,6 +169,19 @@ class Game
     end
 
     !in_check ? true : false
+  end
+
+  def replay
+    loop do
+      puts "play again? (y/n)"
+      answer = gets.chomp.downcase
+      if answer == 'n'
+        break
+      elsif answer == 'y'
+        game = Game.new
+        game.handle_two_player_game
+      end
+    end
   end
 
 end

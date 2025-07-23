@@ -11,5 +11,12 @@ module Display
     puts @selected_piece ? "Selected: #{@selected_piece.icon}" : "select a piece to play"
   end
 
+  def display_menu
+    puts "*------------------------------------------------------*"
+    puts "Welcome to my Chess project!"
+    puts "Use the following commands:"
+    puts "Play: to start a new game against yourself or a friend"
+    puts "*------------------------------------------------------*"
+  end
 
 end

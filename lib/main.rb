@@ -2,21 +2,20 @@
 
 require './lib/game.rb'
 
-game = Game.new
-
 loop do
-  puts "*------------------------------------------------------*"
-  puts "Welcome to my Chess project!"
-  puts "Use the following commands:"
-  puts "Play: to start a new game against yourself or a friend"
-  puts "*------------------------------------------------------*"
+  game = Game.new
+  game.display_menu
   input = gets.chomp.downcase
 
   case input
   when 'play'
-    game.handle_player_turn
+    game.handle_two_player_game
   else
     puts "invalid entry"
+  end
+
+  if input == 'play'
+    game.replay
   end
 
 end
