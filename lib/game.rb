@@ -29,18 +29,17 @@ class Game
     @game_board.render_pieces
   end
 
-  def handle_play
+  def handle_player_turn
     loop do
       @selected_piece = nil
       @selected_square = nil
       self.set_game
-      self.display_game
-      if insufficient_material?
-        puts "Draw! Insufficient Material"
-        return
-      end
       loop do
         self.display_game
+        if insufficient_material?
+          puts "Draw! Insufficient Material"
+          return
+        end
         self.set_select_piece(self.get_input)
         break if @selected_piece
       end
