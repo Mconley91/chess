@@ -9,6 +9,15 @@ module Input
       return
     end
 
+    if input.join == 'load'
+      @load_saved_game = self.load_game
+      if @load_saved_game
+        @quitting = true
+        return
+      end
+      return
+    end
+
     if input.join == 'quit'
       @quitting = true
       return

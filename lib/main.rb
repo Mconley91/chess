@@ -23,7 +23,13 @@ def start_chess_app
       puts "Invalid entry. Try again."
     end
 
-    if input == 'play' # replay only available if playing
+    if game.load_saved_game
+      game = game.load_saved_game
+      input = 'play'
+      game.handle_two_player_game
+    end
+
+    if input == 'play' # replay only available if previously playing
       game.replay
     end
   end
