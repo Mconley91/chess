@@ -172,7 +172,7 @@ class Game
 
   def replay
     loop do
-      puts "Play again? (y/n)"
+      self.display_replay_query
       answer = gets.chomp.downcase
       if answer == 'n'
         break
