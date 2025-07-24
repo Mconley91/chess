@@ -2,6 +2,7 @@ require './lib/board.rb'
 require './lib/rules.rb'
 require './lib/display.rb'
 require './lib/input.rb'
+require './lib/save_load.rb'
 
 class Game 
   attr_accessor :game_board, :player_turn, :round, :turn, :en_passant_offender, :in_check
