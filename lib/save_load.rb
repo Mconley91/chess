@@ -20,11 +20,11 @@ module Saveload
   def load_game
     saves = Dir.entries("./lib/saves")
     puts "SAVES: "
-    saves.each{|save| puts save}
+    saves.each{|save| puts save.split('.')[0]}
     puts "Enter file to load: "
-    filename = gets.chomp
+    filename = gets.chomp.split('.')[0]
     begin
-      data = YAML.load_file("./lib/saves/#{filename}", aliases: true, permitted_classes: [Game, Board, Piece, Pawn, Rook, Knight, Bishop, Queen, King]) 
+      data = YAML.load_file("./lib/saves/#{filename}.yaml", aliases: true, permitted_classes: [Game, Board, Piece, Pawn, Rook, Knight, Bishop, Queen, King]) 
     rescue
       puts 'Invalid entry'
     end

@@ -36,6 +36,7 @@ class Game
   def handle_two_player_game
     self.set_game
     self.display_game
+    self.display_game_commands
     loop do
       @selected_piece = nil
       @selected_square = nil

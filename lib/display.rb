@@ -40,4 +40,9 @@ module Display
     end
   end
 
+  def display_game_commands
+    puts "-Type 'save' to save the game"
+    puts "-Type 'quit' to exit the game"
+  end
+
 end
