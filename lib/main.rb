@@ -20,12 +20,12 @@ def start_chess_app
     when 'exit'
       return
     else
-      puts "        Save not found."
+      puts "        Invalid Entry."
     end
 
     if game.load_saved_game
       game = game.load_saved_game
-      input = 'play'
+      # input = 'play'
       game.handle_two_player_game
     end
 

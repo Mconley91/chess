@@ -1,0 +1,334 @@
+--- !ruby/object:Game
+game_board: !ruby/object:Board
+  squares:
+  - - "♜"
+    - "♞"
+    - "♝"
+    - "♛"
+    - "♚"
+    - "♝"
+    - _
+    - "♜"
+  - - "♟"
+    - "♟"
+    - "♟"
+    - "♟"
+    - "♟"
+    - "♟"
+    - "♟"
+    - "♟"
+  - - _
+    - _
+    - _
+    - _
+    - _
+    - "♞"
+    - _
+    - _
+  - - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+  - - _
+    - _
+    - "♗"
+    - _
+    - "♙"
+    - _
+    - _
+    - _
+  - - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+  - - "♙"
+    - "♙"
+    - "♙"
+    - "♙"
+    - _
+    - "♙"
+    - "♙"
+    - "♙"
+  - - "♖"
+    - "♘"
+    - "♗"
+    - "♕"
+    - "♔"
+    - _
+    - "♘"
+    - "♖"
+  clear_pieces:
+  - !ruby/object:Pawn
+    icon: "♙"
+    color: clear
+    yx:
+    - 6
+    - 0
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♙"
+    color: clear
+    yx:
+    - 6
+    - 1
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♙"
+    color: clear
+    yx:
+    - 6
+    - 2
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♙"
+    color: clear
+    yx:
+    - 6
+    - 3
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♙"
+    color: clear
+    yx:
+    - 4
+    - 4
+    in_play: true
+    has_moved: true
+  - !ruby/object:Pawn
+    icon: "♙"
+    color: clear
+    yx:
+    - 6
+    - 5
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♙"
+    color: clear
+    yx:
+    - 6
+    - 6
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♙"
+    color: clear
+    yx:
+    - 6
+    - 7
+    in_play: true
+    has_moved: false
+  - !ruby/object:Rook
+    icon: "♖"
+    color: clear
+    yx:
+    - 7
+    - 0
+    in_play: true
+    has_moved: false
+  - !ruby/object:Rook
+    icon: "♖"
+    color: clear
+    yx:
+    - 7
+    - 7
+    in_play: true
+    has_moved: false
+  - !ruby/object:Knight
+    icon: "♘"
+    color: clear
+    yx:
+    - 7
+    - 1
+    in_play: true
+    has_moved: false
+  - !ruby/object:Knight
+    icon: "♘"
+    color: clear
+    yx:
+    - 7
+    - 6
+    in_play: true
+    has_moved: false
+  - !ruby/object:Bishop
+    icon: "♗"
+    color: clear
+    yx:
+    - 7
+    - 2
+    in_play: true
+    has_moved: false
+  - !ruby/object:Bishop
+    icon: "♗"
+    color: clear
+    yx:
+    - 4
+    - 2
+    in_play: true
+    has_moved: true
+  - !ruby/object:Queen
+    icon: "♕"
+    color: clear
+    yx:
+    - 7
+    - 3
+    in_play: true
+    has_moved: false
+  - !ruby/object:King
+    icon: "♔"
+    color: clear
+    yx:
+    - 7
+    - 4
+    in_play: true
+    has_moved: false
+  solid_pieces:
+  - !ruby/object:Pawn
+    icon: "♟"
+    color: solid
+    yx:
+    - 1
+    - 0
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♟"
+    color: solid
+    yx:
+    - 1
+    - 1
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♟"
+    color: solid
+    yx:
+    - 1
+    - 2
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♟"
+    color: solid
+    yx:
+    - 1
+    - 3
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♟"
+    color: solid
+    yx:
+    - 1
+    - 4
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♟"
+    color: solid
+    yx:
+    - 1
+    - 5
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♟"
+    color: solid
+    yx:
+    - 1
+    - 6
+    in_play: true
+    has_moved: false
+  - !ruby/object:Pawn
+    icon: "♟"
+    color: solid
+    yx:
+    - 1
+    - 7
+    in_play: true
+    has_moved: false
+  - !ruby/object:Rook
+    icon: "♜"
+    color: solid
+    yx:
+    - 0
+    - 0
+    in_play: true
+    has_moved: false
+  - !ruby/object:Rook
+    icon: "♜"
+    color: solid
+    yx:
+    - 0
+    - 7
+    in_play: true
+    has_moved: false
+  - !ruby/object:Knight
+    icon: "♞"
+    color: solid
+    yx:
+    - 0
+    - 1
+    in_play: true
+    has_moved: false
+  - !ruby/object:Knight
+    icon: "♞"
+    color: solid
+    yx:
+    - 2
+    - 5
+    in_play: true
+    has_moved: true
+  - !ruby/object:Bishop
+    icon: "♝"
+    color: solid
+    yx:
+    - 0
+    - 2
+    in_play: true
+    has_moved: false
+  - !ruby/object:Bishop
+    icon: "♝"
+    color: solid
+    yx:
+    - 0
+    - 5
+    in_play: true
+    has_moved: false
+  - !ruby/object:Queen
+    icon: "♛"
+    color: solid
+    yx:
+    - 0
+    - 3
+    in_play: true
+    has_moved: false
+  - !ruby/object:King
+    icon: "♚"
+    color: solid
+    yx:
+    - 0
+    - 4
+    in_play: true
+    has_moved: false
+player_turn: Solid
+round: 2
+turn: 3
+selected_piece:
+selected_square:
+en_passant_offender:
+in_check: false
+quitting: false
+load_saved_game:

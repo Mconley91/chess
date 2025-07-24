@@ -13,3 +13,6 @@ Castling is done by selecting your King piece, and moving it to the proper squar
 Tests for this game have not yet been made.
 
 This app was designed to run on Ruby version 3.3.5
+
+Known bugs:
+Loading 2-3 times back to back results in error where instead of loading the selected save the game enters replay logic
