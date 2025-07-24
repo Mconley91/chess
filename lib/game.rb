@@ -3,9 +3,10 @@ require './lib/rules.rb'
 require './lib/display.rb'
 require './lib/input.rb'
 require './lib/save_load.rb'
+require 'yaml'
 
 class Game 
-  attr_accessor :game_board, :player_turn, :round, :turn, :en_passant_offender, :in_check
+  attr_accessor :game_board, :player_turn, :round, :turn, :en_passant_offender, :in_check, :quitting
   
   def initialize
     @game_board = Board.new()
@@ -16,6 +17,7 @@ class Game
     @selected_square = nil
     @en_passant_offender = nil
     @in_check = false
+    @quitting = false
   end
 
   include Display
@@ -25,6 +27,7 @@ class Game
   include Pawn_Promotion
   include Draw
   include Castling
+  include Saveload
 
   def set_game
     @game_board.render_pieces
@@ -39,12 +42,14 @@ class Game
       self.set_game
       loop do
         self.set_select_piece(self.get_input)
+        return if @quitting
         break if @selected_piece
         self.display_game
       end
       loop do
         self.display_game
         self.select_square(self.get_input)
+        return if @quitting
         break if @selected_piece.legal_move?(*legal_move_arguments(@selected_piece, @selected_square)) && 
         self.check_escaping_play(@selected_piece, @selected_square, @player_turn)
         @selected_square = nil # prevents unexpected behavior if friendly piece is selected instead of a square

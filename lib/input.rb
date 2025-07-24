@@ -3,6 +3,17 @@
 module Input
   def get_input
     input = gets.chomp.downcase.split('')
+
+    if input.join == 'save'
+      self.save_game
+      return
+    end
+
+    if input.join == 'quit'
+      @quitting = true
+      return
+    end
+
     return convert_to_yx(input) if play_validator(input)
   end
 
