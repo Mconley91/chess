@@ -11,7 +11,6 @@ module Input
 
     if input.join == 'load'
       @load_saved_game = self.load_game
-      # p @load_saved_game
       if @load_saved_game
         @quitting = true
         return

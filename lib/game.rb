@@ -44,14 +44,14 @@ class Game
       self.set_game
       loop do
         self.set_select_piece(self.get_input)
-        return if @quitting
+        return if @quitting # exits loop if quitting or loading save
         break if @selected_piece
         self.display_game
       end
       loop do
         self.display_game
         self.select_square(self.get_input)
-        return if @quitting
+        return if @quitting # exits loop if quitting or loading save
         break if @selected_piece.legal_move?(*legal_move_arguments(@selected_piece, @selected_square)) && 
         self.check_escaping_play(@selected_piece, @selected_square, @player_turn)
         @selected_square = nil # prevents unexpected behavior if friendly piece is selected instead of a square
