@@ -16,4 +16,7 @@ describe Game do
       expect(game.player_turn).to eq('Clear')
     end
   end
+
+
+  
 end
