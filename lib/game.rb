@@ -6,7 +6,7 @@ require './lib/save_load.rb'
 require 'yaml'
 
 class Game 
-  attr_accessor :game_board, :player_turn, :round, :turn, :en_passant_offender, :in_check, :quitting, :load_saved_game
+  attr_accessor :game_board, :player_turn, :round, :turn, :en_passant_offender, :in_check, :quitting, :load_saved_game, :selected_piece, :selected_square
   
   def initialize
     @game_board = Board.new()

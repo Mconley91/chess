@@ -19,6 +19,40 @@ describe Game do
     end
   end
 
+  describe '#set_selected_piece' do
+    subject (:game){described_class.new}
+    context 'when it is Clears turn and #set_selected_piece is called' do
+      it 'Assigns #selected_piece to a pawn' do
+        game.set_select_piece([6,0])
+        expect(game.selected_piece).to be_a(Pawn)
+      end
+      it 'Assigns #selected_piece to a king' do
+        game.set_select_piece([7,4])
+        expect(game.selected_piece).to be_a(King)
+      end
+      it '#selected_piece remains nil' do # selecting enemy pawn
+        game.set_select_piece([1,0])
+        expect(game.selected_piece).to be(nil)
+      end
+    end
 
+    context 'when it is Solids turn and #set_selected_piece is called' do
+    before do
+      game.next_player
+    end
+      it 'Assigns #selected_piece to a pawn' do
+        game.set_select_piece([1,0])
+        expect(game.selected_piece).to be_a(Pawn)
+      end
+      it 'Assigns #selected_piece to a king' do
+        game.set_select_piece([0,4])
+        expect(game.selected_piece).to be_a(King)
+      end
+      it '#selected_piece remains nil' do # selecting enemy pawn
+        game.set_select_piece([6,0])
+        expect(game.selected_piece).to be(nil)
+      end
+    end
+  end
   
 end
