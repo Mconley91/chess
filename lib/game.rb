@@ -84,7 +84,7 @@ class Game
     if self.turn.even? then self.round += 1 end
   end
 
-  def set_select_piece(yx)
+  def set_selected_piece(yx)
     if @player_turn == 'Clear'
       @selected_piece = @game_board.clear_pieces.find{|piece| piece.yx == yx && piece.in_play}
     else
@@ -92,16 +92,16 @@ class Game
     end
   end
 
-  def select_square(yx)
+  def set_selected_square(yx)
     if @player_turn == 'Clear'
       if friendly_collision?(yx, @game_board.clear_pieces)
-        set_select_piece(yx)
+        set_selected_piece(yx)
       else
         @selected_square = yx
       end
     else
       if friendly_collision?(yx, @game_board.solid_pieces)
-        set_select_piece(yx)
+        set_selected_piece(yx)
       else
         @selected_square = yx
       end

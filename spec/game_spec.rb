@@ -49,15 +49,15 @@ describe Game do
     subject (:game){described_class.new}
     context 'when it is Clears turn and #set_selected_piece is called' do
       it 'Assigns #selected_piece to a pawn' do
-        game.set_select_piece([6,0])
+        game.set_selected_piece([6,0])
         expect(game.selected_piece).to be_a(Pawn)
       end
       it 'Assigns #selected_piece to a king' do
-        game.set_select_piece([7,4])
+        game.set_selected_piece([7,4])
         expect(game.selected_piece).to be_a(King)
       end
       it '#selected_piece remains nil' do # selecting enemy pawn
-        game.set_select_piece([1,0])
+        game.set_selected_piece([1,0])
         expect(game.selected_piece).to be(nil)
       end
     end
@@ -67,16 +67,33 @@ describe Game do
         game.next_player
       end
       it 'Assigns #selected_piece to a pawn' do
-        game.set_select_piece([1,0])
+        game.set_selected_piece([1,0])
         expect(game.selected_piece).to be_a(Pawn)
       end
       it 'Assigns #selected_piece to a king' do
-        game.set_select_piece([0,4])
+        game.set_selected_piece([0,4])
         expect(game.selected_piece).to be_a(King)
       end
       it '#selected_piece remains nil' do # selecting enemy pawn
-        game.set_select_piece([6,0])
+        game.set_selected_piece([6,0])
         expect(game.selected_piece).to be(nil)
+      end
+    end
+  end
+
+  describe '#set_selected_square' do # not working yet
+    subject(:game){described_class.new}
+    context 'when #selected_piece is a clear pawn' do
+    before do
+      game.set_selected_piece([7,0])
+    end
+      it 'sets #selected_square to a coordinate when the move is valid 1 square play' do
+        game.set_selected_square([6,0])
+        expect(game.selected_square).to eq([6,0])
+      end
+      it 'sets #selected_square to a coordinate when the move is valid 2 square play' do
+        game.set_selected_square([5,0])
+        expect(game.selected_square).to eq([5,0])
       end
     end
   end
