@@ -10,6 +10,6 @@ To make a play, select a piece with standard algebraic notation (ie: 'a2') and t
 
 Castling is done by selecting your King piece, and moving it to the proper square when legal to do so (the Rook will move automatically).
 
-Tests for this game have not yet been made.
+A few tests have been written in game_spec.rb
 
 This app was designed to run on Ruby version 3.3.5
