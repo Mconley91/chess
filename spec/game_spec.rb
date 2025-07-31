@@ -56,7 +56,7 @@ describe Game do
         game.set_selected_piece([7,4])
         expect(game.selected_piece).to be_a(King)
       end
-      it '#selected_piece remains nil' do # selecting enemy pawn
+      it '#selected_piece remains nil when selecting an enemy piece' do
         game.set_selected_piece([1,0])
         expect(game.selected_piece).to be(nil)
       end
@@ -74,7 +74,7 @@ describe Game do
         game.set_selected_piece([0,4])
         expect(game.selected_piece).to be_a(King)
       end
-      it '#selected_piece remains nil' do # selecting enemy pawn
+      it '#selected_piece remains nil when selecting an enemy piece' do
         game.set_selected_piece([6,0])
         expect(game.selected_piece).to be(nil)
       end
@@ -85,15 +85,19 @@ describe Game do
     subject(:game){described_class.new}
     context 'when #selected_piece is a clear pawn' do
     before do
-      game.set_selected_piece([7,0])
+      game.set_selected_piece([6,0])
     end
-      it 'sets #selected_square to a coordinate when the move is valid 1 square play' do
-        game.set_selected_square([6,0])
-        expect(game.selected_square).to eq([6,0])
-      end
-      it 'sets #selected_square to a coordinate when the move is valid 2 square play' do
+      it 'sets #selected_square to a coordinate when the square is not occupied by a friendly piece' do
         game.set_selected_square([5,0])
         expect(game.selected_square).to eq([5,0])
+      end
+      it 'does not set #selected_square when the target square is occupied by a firendly piece' do
+        game.set_selected_square([6,1])
+        expect(game.selected_square).to eq(nil)
+      end
+      it 'sets #selected_piece when the target square is occupied by a firendly piece' do
+        game.set_selected_square([7,0])
+        expect(game.selected_piece).to be_a(Rook)
       end
     end
   end
