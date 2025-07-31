@@ -5,16 +5,42 @@ require './lib/game.rb'
 describe Game do
 
   describe '#next_player' do
-  subject (:game){described_class.new}
+    subject (:game){described_class.new}
     context 'when #next_player is called' do
-      it 'changes the value of @player_turn from Clear to Solid' do
+      it 'changes the value of #player_turn from Clear to Solid' do
         game.next_player
         expect(game.player_turn).to eq('Solid')
       end
-      it 'changes the value of @player_turn from Solid to Clear' do
+      it 'changes the value of #player_turn from Solid to Clear' do
         game.next_player
         game.next_player
         expect(game.player_turn).to eq('Clear')
+      end
+    end
+  end
+
+  describe '#next_turn' do
+    subject (:game){described_class.new}
+    context 'when #next_turn is called' do
+      it 'increments #turn by 1' do
+        expect{game.next_turn}.to change{game.turn}.by(1)
+      end
+    end
+    context 'when #next_turn is called twice' do
+      before do
+        game.next_turn
+      end
+      it 'increments #round by 1' do
+        expect{game.next_turn}.to change{game.round}.by(1)
+      end
+    end
+    context 'when #next_turn is called three times' do
+      before do
+        game.next_turn
+        game.next_turn
+      end
+      it 'does not increment #round by 1' do
+        expect{game.next_turn}.to change{game.round}.by(0)
       end
     end
   end
@@ -37,9 +63,9 @@ describe Game do
     end
 
     context 'when it is Solids turn and #set_selected_piece is called' do
-    before do
-      game.next_player
-    end
+      before do
+        game.next_player
+      end
       it 'Assigns #selected_piece to a pawn' do
         game.set_select_piece([1,0])
         expect(game.selected_piece).to be_a(Pawn)
